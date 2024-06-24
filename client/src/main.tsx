@@ -1,28 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import "./index.css";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Landing from "./Landing.tsx";
-import Login from "./Login.tsx";
+import { Auth0Provider } from "@auth0/auth0-react";
+import App from "./App.tsx";
 
-const authenticatedRouter = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-      { index: true, element: <Landing /> },
-      { path: "test", element: <div>test</div> },
-    ],
-  },
-]);
-const authenticated = true;
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {authenticated ? (
-      <RouterProvider router={authenticatedRouter} />
-    ) : (
-      <Login />
-    )}
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENTID}
+      cacheLocation="localstorage"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: import.meta.env.VITE_AUTH_AUDIENCE,
+      }}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 );

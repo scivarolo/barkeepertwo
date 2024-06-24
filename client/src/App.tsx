@@ -1,30 +1,13 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Outlet } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { RouterProvider } from "react-router-dom";
+import authenticatedRouter from "./routes/authenticatedRouter";
+import UnauthenticatedRoot from "./UnauthenticatedRoot";
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <Button>Hey</Button>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-      <Outlet />
-    </>
+export default function App() {
+  const { isAuthenticated } = useAuth0();
+  return isAuthenticated ? (
+    <RouterProvider router={authenticatedRouter} />
+  ) : (
+    <UnauthenticatedRoot />
   );
 }
-
-export default App;
