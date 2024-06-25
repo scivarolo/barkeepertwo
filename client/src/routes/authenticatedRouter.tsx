@@ -1,5 +1,5 @@
 import AuthenticatedRoot from "@/AuthenticatedRoot";
-import Landing from "@/Landing";
+import Dashboard from "@/Dashboard";
 import { createBrowserRouter } from "react-router-dom";
 
 const authenticatedRouter = createBrowserRouter([
@@ -7,8 +7,10 @@ const authenticatedRouter = createBrowserRouter([
     path: "/",
     element: <AuthenticatedRoot />,
     children: [
-      { index: true, element: <Landing /> },
-      { path: "test", element: <div>test</div> },
+      { index: true, element: <Dashboard /> },
+      { path: "cocktails", element: <div>Cocktails</div> },
+      { path: "bar", element: <div>Bar</div> },
+      { path: "shopping-list", element: <div>Shopping List</div> },
     ],
   },
 ]);
