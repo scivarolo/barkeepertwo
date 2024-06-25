@@ -5,7 +5,7 @@ import Header from "./components/header/header";
 function AuthenticatedRoot() {
   return (
     <ApolloClientProvider>
-      <div className="container flex min-h-screen w-full flex-col bg-slate-100 dark:bg-slate-900">
+      <div className=" flex min-h-screen w-full flex-col bg-slate-100 dark:bg-slate-900">
         <Header />
         <div className="p-6">
           <Outlet />
