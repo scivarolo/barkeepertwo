@@ -9,10 +9,10 @@ const Query: QueryResolvers = {
         id: user.id,
         createdAt: user.createdAt.toString(),
         updatedAt: user.updatedAt.toString(),
-        username: user.username,
-        passwordHash: user.passwordHash,
+        displayName: user.displayName,
       };
     }
+    return null;
   },
 };
 

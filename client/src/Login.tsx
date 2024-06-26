@@ -12,7 +12,7 @@ import { LoaderCircle, Martini } from "lucide-react";
 export default function Login() {
   const { loginWithRedirect, isLoading } = useAuth0();
   return (
-    <div className="container flex justify-center items-center p-10 h-screen bg-gradient-to-br from-blue-500 to-blue-800 dark:from-slate-900 dark:to-slate-900">
+    <div className="flex justify-center items-center p-10 h-screen bg-gradient-to-br from-blue-500 to-blue-800 dark:from-slate-900 dark:to-slate-900">
       <Card className="w-full max-w-sm shadow-gray-500 dark:shadow-none">
         <CardHeader>
           <CardTitle className="text-2xl">

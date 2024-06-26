@@ -2,14 +2,25 @@ type Query {
   getUser(id: ID!): User
 }
 
-# type Mutation {}
+type Mutation {
+  updateUser(user: UpdateUserRequest!): UpdateUserResponse
+}
+
+input UpdateUserRequest {
+  id: ID!
+  displayName: String!
+}
+
+type UpdateUserResponse {
+  id: ID!
+  displayName: String!
+}
 
 type User {
   id: ID!
   createdAt: String!
   updatedAt: String!
-  username: String!
-  passwordHash: String!
+  displayName: String!
   createdCocktails: [Cocktail]
   createdIngredients: [Ingredient]
   createdProducts: [Product]
