@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth0 } from "@auth0/auth0-react";
 import ThemeToggle from "./ThemeToggle";
+import { routes } from "@/routes/routes";
 
 interface NavItemProps {
   active?: boolean;
@@ -37,17 +38,25 @@ function NavItems() {
   const location = useLocation();
   return (
     <>
-      <NavItem label="Dashboard" to="/" active={location.pathname === "/"} />
       <NavItem
-        label="Cocktails"
-        to="/cocktails"
-        active={location.pathname === "/cocktails"}
+        label={routes.dashboard.title}
+        to={routes.dashboard.url()}
+        active={location.pathname === routes.dashboard.path}
       />
-      <NavItem label="Bar" to="/bar" active={location.pathname === "/bar"} />
       <NavItem
-        label="Shopping List"
-        to="/shopping-list"
-        active={location.pathname === "/shopping-list"}
+        label={routes.cocktails.title}
+        to={routes.cocktails.url()}
+        active={location.pathname === routes.cocktails.path}
+      />
+      <NavItem
+        label={routes.bar.title}
+        to={routes.bar.url()}
+        active={location.pathname === routes.bar.path}
+      />
+      <NavItem
+        label={routes.shoppingList.title}
+        to={routes.shoppingList.url()}
+        active={location.pathname === routes.shoppingList.path}
       />
     </>
   );
@@ -62,7 +71,7 @@ export default function Header() {
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
           <Martini className="h-6 w-6" />
-          <span className="sr-only">Acme Inc</span>
+          <span className="sr-only">Barkeeper</span>
         </Link>
         <NavItems />
       </nav>
@@ -80,7 +89,7 @@ export default function Header() {
               className="flex items-center gap-2 text-lg font-semibold"
             >
               <Martini className="h-6 w-6" />
-              <span className="sr-only">Acme Inc</span>
+              <span className="sr-only">Barkeeper</span>
             </Link>
             <NavItems />
           </nav>
@@ -117,8 +126,9 @@ function UserMenu() {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Cheers, {user?.name}!</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={routes.settings.url()}>Settings</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() =>
