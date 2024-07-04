@@ -11,9 +11,17 @@ input UpdateUserRequest {
   displayName: String!
 }
 
-type UpdateUserResponse {
-  id: ID!
-  displayName: String!
+interface MutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+}
+
+type UpdateUserResponse implements MutationResponse {
+  code: String!
+  success: Boolean!
+  message: String!
+  user: User
 }
 
 type User {

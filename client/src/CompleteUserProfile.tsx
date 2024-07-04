@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Input } from "./components/ui/input";
 import { useUpdateUser } from "./data/User";
 import { useNavigate } from "react-router-dom";
+import { FormControl, FormDescription, FormItem } from "./components/ui/form";
 
 export default function CompleteUserProfile() {
   const { logout, user: authUser } = useAuth0();
@@ -35,11 +36,20 @@ export default function CompleteUserProfile() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Input
-            type="text"
-            value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
+          <FormItem>
+            <FormControl>
+              <Input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+              />
+            </FormControl>
+            {updatedUser.error && (
+              <FormDescription className="text-red-500">
+                Username already exists
+              </FormDescription>
+            )}
+          </FormItem>
         </CardContent>
         <CardFooter>
           <Button

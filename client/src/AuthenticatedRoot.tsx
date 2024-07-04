@@ -3,7 +3,7 @@ import Header from "./components/header/header";
 import { Loader2 } from "lucide-react";
 import { useUser } from "./data/User";
 import { useAuth0 } from "@auth0/auth0-react";
-import { NetworkStatus } from "@apollo/client";
+import { routes } from "./routes/routes";
 
 function AuthenticatedRoot() {
   const auth = useAuth0();
@@ -16,8 +16,8 @@ function AuthenticatedRoot() {
         <Loader2 className="animate-spin" />
       </div>
     );
-  } else if (user.networkStatus === NetworkStatus.ready && !user.data) {
-    return <Navigate to="/complete-profile" />;
+  } else if (user.data && !user.data.getUser) {
+    return <Navigate to={routes.completeProfile.url()} />;
   }
   return (
     <div className=" flex min-h-screen w-full flex-col bg-slate-100 dark:bg-slate-900">
