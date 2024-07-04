@@ -32,7 +32,7 @@ const Mutation: MutationResolvers = {
         },
       });
       return {
-        sucess: true,
+        success: true,
         code: "200",
         message: "Username Updated",
         user: {
