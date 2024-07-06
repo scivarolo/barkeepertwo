@@ -1,8 +1,8 @@
-import { MutationUpdateUserArgs, UpdateUserResponse } from "@/gql/graphql";
+import { MutationUpdateUserArgs, User } from "@/gql/graphql";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 const GET_USER = gql`
-  query GetUser($id: ID!) {
+  query GetUser($id: String!) {
     user(id: $id) {
       id
       displayName
@@ -18,18 +18,14 @@ export function useUser(id: string | undefined) {
 }
 
 const UPDATE_USER = gql`
-  mutation updateUser($user: UpdateUserRequest!) {
-    updateUser(user: $user) {
-      sucess
-      message
-      user: {
-        id
-        displayName
-      }
+  mutation UpdateUser($id: ID!, $displayName: String!) {
+    updateUser(id: $id, displayName: $displayName) {
+      id
+      displayName
     }
   }
 `;
 
 export function useUpdateUser() {
-  return useMutation<UpdateUserResponse, MutationUpdateUserArgs>(UPDATE_USER);
+  return useMutation<User, MutationUpdateUserArgs>(UPDATE_USER);
 }

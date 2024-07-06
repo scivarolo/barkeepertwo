@@ -7,19 +7,15 @@ import {
 import { setContext } from "@apollo/client/link/context";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import React, { useEffect, useState } from "react";
+import React, { useMemo } from "react";
 
-const httpLink = createHttpLink({
-  uri: "http://localhost:4001",
-});
+const createApolloClient = (getAccessToken) => {
+  const httpLink = createHttpLink({
+    uri: "http://localhost:5286/graphql",
+  });
 
-const client = new ApolloClient({
-  link: httpLink,
-  cache: new InMemoryCache(),
-});
-
-const updateClientLink = (token: string) => {
-  const authLink = setContext((_, { headers }) => {
+  const authLink = setContext(async (_, { headers }) => {
+    const token = await getAccessToken();
     return {
       headers: {
         ...headers,
@@ -27,7 +23,11 @@ const updateClientLink = (token: string) => {
       },
     };
   });
-  client.setLink(authLink.concat(httpLink));
+
+  return new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache(),
+  });
 };
 
 interface Props {
@@ -35,15 +35,11 @@ interface Props {
 }
 export default function ApolloClientProvider({ children }: Props) {
   const { getAccessTokenSilently } = useAuth0();
-  const [token, setToken] = useState<string>();
-  useEffect(() => {
-    if (!token) {
-      getAccessTokenSilently().then((response) => {
-        setToken(response);
-        updateClientLink(response);
-      });
-    }
-  }, [token]);
+
+  const client = useMemo(
+    () => createApolloClient(getAccessTokenSilently),
+    [getAccessTokenSilently]
+  );
 
   return <ApolloProvider client={client}>{children}</ApolloProvider>;
 }

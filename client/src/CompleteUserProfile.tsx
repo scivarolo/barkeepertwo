@@ -56,7 +56,8 @@ export default function CompleteUserProfile() {
             onClick={() =>
               updateUser({
                 variables: {
-                  user: { displayName, id: authUser?.sub as string },
+                  displayName,
+                  id: authUser?.sub as string,
                 },
                 onCompleted: () => {
                   navigate("/");

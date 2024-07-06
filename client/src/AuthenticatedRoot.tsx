@@ -16,7 +16,7 @@ function AuthenticatedRoot() {
         <Loader2 className="animate-spin" />
       </div>
     );
-  } else if (user.data && !user.data.getUser) {
+  } else if (user.data && !user.data.user) {
     return <Navigate to={routes.completeProfile.url()} />;
   }
   return (

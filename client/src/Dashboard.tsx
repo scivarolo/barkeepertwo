@@ -8,7 +8,7 @@ export default function Dashboard() {
     <>
       <div>
         <h1 className="text-3xl font-bold">Dashboard</h1>
-        Hey {user.data?.getUser?.displayName}
+        Hey {user.data?.user?.displayName}
       </div>
     </>
   );
