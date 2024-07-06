@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using Barkeeper.Data;
+using HotChocolate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Barkeeper.Models.Database;
@@ -13,7 +16,7 @@ public partial class CocktailIngredient {
     public int Id { get; set; }
 
     [Column("amount")]
-    [Precision(65, 30)]
+    [Precision(10, 3)]
     public decimal Amount { get; set; }
 
     [Column("units")]
@@ -38,6 +41,10 @@ public partial class CocktailIngredient {
     [ForeignKey("IngredientId")]
     [InverseProperty("CocktailIngredients")]
     public virtual Ingredient Ingredient { get; set; } = null!;
+
+    public IQueryable<Ingredient> GetIngredient([Parent] CocktailIngredient Parent, BarkeeperContext Context) {
+        return Context.Ingredients.Where(x => Parent.IngredientId == x.Id);
+    }
 
     [ForeignKey("ProductId")]
     [InverseProperty("CocktailIngredients")]

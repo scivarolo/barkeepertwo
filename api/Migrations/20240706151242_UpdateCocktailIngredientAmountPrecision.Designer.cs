@@ -3,6 +3,7 @@ using System;
 using Barkeeper.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Barkeeper.Migrations
 {
     [DbContext(typeof(BarkeeperContext))]
-    partial class BarkeeperContextModelSnapshot : ModelSnapshot
+    [Migration("20240706151242_UpdateCocktailIngredientAmountPrecision")]
+    partial class UpdateCocktailIngredientAmountPrecision
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

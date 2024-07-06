@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using Barkeeper.Data;
 using Barkeeper.Models.Database;
+using Barkeeper.Models.GraphQL;
 using HotChocolate;
 using HotChocolate.Types.Relay;
 
-namespace Barkeeper.Models.GraphQL;
+namespace Barkeeper.Data.Resolvers;
 
 public class Mutation {
 

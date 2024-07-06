@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+using Barkeeper.Data;
+using HotChocolate;
 using HotChocolate.Types.Relay;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,9 +40,19 @@ public partial class Cocktail {
     [InverseProperty("Cocktail")]
     public virtual ICollection<CocktailIngredient> CocktailIngredients { get; set; } = new List<CocktailIngredient>();
 
+    public IQueryable<CocktailIngredient> GetCocktailIngredients([Parent] Cocktail Parent, BarkeeperContext Context) {
+        return Context.CocktailIngredients
+            .Where(x => x.CocktailId == Parent.Id)
+            .OrderBy(x => x.Order);
+    }
+
     [ForeignKey("CreatedById")]
     [InverseProperty("Cocktails")]
-    public virtual User CreatedBy { get; set; } = null!;
+    public virtual User? CreatedBy { get; set; } = null!;
+
+    public IQueryable<User> GetCreatedBy([Parent] Cocktail Parent, BarkeeperContext Context) {
+        return Context.Users.Where(x => x.Id == Parent.CreatedById);
+    }
 
     [InverseProperty("Cocktail")]
     public virtual ICollection<TabCocktail> TabCocktails { get; set; } = new List<TabCocktail>();

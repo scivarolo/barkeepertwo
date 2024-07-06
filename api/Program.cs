@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Barkeeper.Data;
+using Barkeeper.Data.Resolvers;
 using Barkeeper.Models.GraphQL;
 using HotChocolate.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
