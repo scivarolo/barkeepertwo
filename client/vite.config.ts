@@ -18,6 +18,7 @@ export default defineConfig({
           logLevel: ["error"],
         },
       },
+      overlay: { initialIsOpen: false },
     }),
   ],
   resolve: {
