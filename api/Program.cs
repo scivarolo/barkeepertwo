@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Barkeeper.Data;
+using Barkeeper.Data.DataLoaders;
 using Barkeeper.Data.Resolvers;
 using Barkeeper.Models.GraphQL;
 using HotChocolate.Data;
@@ -28,7 +29,7 @@ builder.Services.AddCors(options => {
         builder.AllowAnyOrigin().AllowAnyHeader());
 });
 
-builder.Services.AddPooledDbContextFactory<BarkeeperContext>(options => {
+builder.Services.AddDbContextPool<BarkeeperContext>(options => {
     options.UseNpgsql(builder.Configuration["ConnectionStrings:Database"]);
 });
 
@@ -36,12 +37,15 @@ builder.Services.AddPooledDbContextFactory<BarkeeperContext>(options => {
 builder.Services
     .AddGraphQLServer()
     .AddAuthorization()
-    .RegisterDbContext<BarkeeperContext>(DbContextKind.Pooled)
-    .AddGlobalObjectIdentification()
-    .AddFiltering()
-    .AddSorting()
+    .RegisterDbContext<BarkeeperContext>(DbContextKind.Resolver)
     .AddQueryType<Query>()
-    .AddMutationType<Mutation>();
+    .AddMutationType<Mutation>()
+    .AddDataLoader<CocktailIngredientDataLoader>()
+    .AddDataLoader<IngredientDataLoader>()
+    .AddGlobalObjectIdentification()
+    .AddProjections()
+    .AddFiltering()
+    .AddSorting();
 
 var app = builder.Build();
 

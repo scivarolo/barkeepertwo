@@ -40,9 +40,9 @@ public partial class Cocktail {
     [InverseProperty("Cocktail")]
     public virtual ICollection<CocktailIngredient> CocktailIngredients { get; set; } = new List<CocktailIngredient>();
 
-    public IQueryable<CocktailIngredient> GetCocktailIngredients([Parent] Cocktail Parent, BarkeeperContext Context) {
+    public IQueryable<CocktailIngredient> GetCocktailIngredients(BarkeeperContext Context) {
         return Context.CocktailIngredients
-            .Where(x => x.CocktailId == Parent.Id)
+            .Where(x => x.CocktailId == Id)
             .OrderBy(x => x.Order);
     }
 

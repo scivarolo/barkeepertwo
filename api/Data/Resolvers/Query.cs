@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Barkeeper.Data;
 using Barkeeper.Models.Database;
 using HotChocolate.Authorization;
+using HotChocolate.Data;
 using HotChocolate.Types.Relay;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,6 @@ public class Query {
 
     public IQueryable<Cocktail> GetAllCocktails(BarkeeperContext Context) {
         return Context.Cocktails;
-        // .Include(x => x.CocktailIngredients).ThenInclude(x => x.Ingredient);
     }
 
     public IQueryable<Ingredient> GetAllIngredients(BarkeeperContext Context) {
