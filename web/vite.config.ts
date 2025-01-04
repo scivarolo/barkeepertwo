@@ -1,23 +1,25 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import checker from "vite-plugin-checker";
+// import checker from "vite-plugin-checker";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    TanStackRouterVite(),
     react(),
-    checker({
-      typescript: {},
-      eslint: {
-        lintCommand:
-          "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-        dev: {
-          logLevel: ["error"],
-        },
-      },
-      overlay: { initialIsOpen: false },
-    }),
+    // checker({
+    //   typescript: true,
+    //   // eslint: {
+    //   //   lintCommand: 'eslint "./src/**/*.{ts,tsx}" --max-warnings 0',
+    //   //   // useFlatConfig: true,
+    //   //   dev: {
+    //   //     logLevel: ["error"],
+    //   //   },
+    //   // },
+    //   overlay: { initialIsOpen: false },
+    // }),
   ],
   resolve: {
     alias: {

@@ -1,3 +1,4 @@
 *.md
 src/components/*
 src/lib/*
+routeTree.gen.ts
