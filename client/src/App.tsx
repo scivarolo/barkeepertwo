@@ -3,6 +3,7 @@ import UnauthenticatedRoot from "./UnauthenticatedRoot";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import AuthenticatedRoutes from "./routes/AuthenticatedRoutes";
 
+
 export default function App() {
   const { isAuthenticated } = useAuth0();
 

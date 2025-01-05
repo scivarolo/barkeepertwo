@@ -3,12 +3,14 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "@typescript-eslint/eslint-plugin";
+import pluginQuery from "@tanstack/eslint-plugin-query";
 
 export default [
   js.configs.recommended,
   tseslint.configs.recommended,
   reactHooks.configs.recommended,
   reactRefresh.configs.recommended,
+  pluginQuery.configs["flat/recommended"],
   {
     files: ["**/*.{js,jsx,ts,tsx}"],
     languageOptions: {
