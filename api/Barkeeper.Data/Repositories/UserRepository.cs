@@ -4,12 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Barkeeper.Data.Repositories;
 
-public class UserRepository : IUserRepository {
-    private readonly BarkeeperContext context;
-
-    public UserRepository(BarkeeperContext Context) {
-        context = Context;
-    }
+public class UserRepository(BarkeeperContext Context) : BaseRepository(Context), IUserRepository {
 
     public async Task<User?> Get(string id) {
         return await context.Users.FindAsync(id);

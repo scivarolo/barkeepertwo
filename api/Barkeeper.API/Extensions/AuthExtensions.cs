@@ -1,8 +1,6 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace Barkeeper.Extensions.Authorization;
+namespace Barkeeper.API.Extensions.Authorization;
 
 public class PermissionRequirement : IAuthorizationRequirement {
     public string Issuer { get; }

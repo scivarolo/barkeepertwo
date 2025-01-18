@@ -2,14 +2,14 @@ using Barkeeper.Data;
 using Barkeeper.Data.Interfaces;
 using Barkeeper.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Barkeeper.Extensions.Authorization;
+using Barkeeper.API.Extensions.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using Barkeeper.Services.Interfaces;
+using Barkeeper.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var domain = builder.Configuration["Auth0:Domain"];
@@ -47,7 +47,10 @@ builder.Services
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
     });
 
+builder.Services.AddScoped<IUserService, UserService>();
+
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddSwaggerGen();
 
 

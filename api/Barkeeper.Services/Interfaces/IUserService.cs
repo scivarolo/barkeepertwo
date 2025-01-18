@@ -1,9 +1,10 @@
 using Barkeeper.Models.Database;
 
-namespace Barkeeper.Data.Interfaces;
+namespace Barkeeper.Services.Interfaces;
 
-public interface IUserRepository : IBaseRepository {
-    Task<User?> Get(string Id);
+public interface IUserService {
+
+    Task<User?> GetUser(string Id);
 
     Task<User?> CreateOrUpdateUser(User User);
 

@@ -1,13 +1,12 @@
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Barkeeper.Controllers;
+namespace Barkeeper.API.Controllers;
 
 [Authorize]
 [ApiController]
 [Route("[controller]/[action]")]
-public class ControllerBase : Controller {
+public class BarkeeperControllerBase : Controller {
     protected string CurrentUserId => HttpContext.User.Identity?.Name ?? string.Empty;
     protected string[] CurrentUserPermissions => HttpContext.User.FindAll("permissions").Select(x => x.Value).ToArray();
 

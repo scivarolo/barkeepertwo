@@ -20,6 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Barkeeper.Data/Barkeeper.Data.csproj" />
+    <ProjectReference Include="../Barkeeper.Models/Barkeeper.Models.csproj" />
     <ProjectReference Include="../Barkeeper.Services/Barkeeper.Services.csproj" />
   </ItemGroup>
 
