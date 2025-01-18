@@ -1,22 +1,28 @@
+using System;
 using System.Threading.Tasks;
 using Barkeeper.Data.Interfaces;
-using Barkeeper.Extensions.Authorization;
 using Barkeeper.Models.Database;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Barkeeper.Controllers;
 
-public class UserController : ControllerBase {
-    private readonly IUserRepository userRepo;
-
-    public UserController(IUserRepository UserRepo) {
-        userRepo = UserRepo;
+public class UserController(IUserRepository UserRepo) : ControllerBase {
+    [HttpGet]
+    public async Task<IActionResult> Get(string Id) {
+        var user = await UserRepo.Get(Id);
+        if (user == null) {
+            return NoContent();
+        } else {
+            return Ok(user);
+        }
     }
 
-    [HttpGet]
-    [Authorize(AuthPolicy.Admin)]
-    public async Task<User?> Get(string Id) {
-        return await userRepo.Get(Id);
+    [HttpPost]
+    public async Task<User?> Update(User User) {
+        if (User.Id != CurrentUserId && !UserHasPermission("admin")) {
+            throw new Exception("User does not have permission to perform this action");
+        }
+        var user = await UserRepo.CreateOrUpdateUser(User);
+        return user;
     }
 }

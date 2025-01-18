@@ -12,43 +12,92 @@ import {
 import { Input } from "@/components/ui/input";
 import { useAuth0 } from "@auth0/auth0-react";
 import ThemeToggle from "./ThemeToggle";
-import { Link, linkOptions } from "@tanstack/react-router";
+import {
+  createLink,
+  Link,
+  LinkComponent,
+  linkOptions,
+} from "@tanstack/react-router";
+import {
+  NavigationMenu,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "../ui/navigation-menu";
+import { NavigationMenuLinkProps } from "@radix-ui/react-navigation-menu";
+import { forwardRef } from "react";
+import { useUser } from "@/data/User";
 
 const navbarLinks = linkOptions([
   {
     to: "/",
     label: "Dashboard",
     activeOptions: { exact: true },
+    activeProps: { active: true },
   },
   {
     to: "/cocktails",
     label: "Cocktails",
+    activeProps: { active: true },
   },
   {
     to: "/bar",
     label: "Bar",
+    activeProps: { active: true },
   },
   {
     to: "/shopping-list",
     label: "Shopping List",
+    activeProps: { active: true },
   },
 ]);
 
-function NavItems() {
-  return navbarLinks.map((props) => (
-    <Link
-      key={props.to}
-      {...props}
-      activeProps={{
-        className: "text-primary",
-      }}
-      inactiveProps={{
-        className: "text-muted-foreground",
-      }}
-      className={`transition-colors hover:text-foreground`}>
-      {props.label}
-    </Link>
-  ));
+interface NavLinkProps extends Omit<NavigationMenuLinkProps, "href"> {
+  children?: React.ReactNode;
+}
+
+const NavLinkComponent = forwardRef<HTMLAnchorElement, NavLinkProps>(
+  (props, ref) => {
+    return (
+      <NavigationMenuLink
+        className={navigationMenuTriggerStyle({
+          className:
+            "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[active]:bg-primary data-[state=open]:bg-primary/50 data-[active]:text-white",
+        })}
+        {...props}
+        ref={ref}
+      />
+    );
+  },
+);
+
+const CreatedNavLink = createLink(NavLinkComponent);
+
+const NavLink: LinkComponent<typeof NavLinkComponent> = (props) => {
+  return <CreatedNavLink {...props} />;
+};
+
+interface NavItemsProps {
+  orientation?: "vertical" | "horizontal";
+}
+
+function NavItems({ orientation = "horizontal" }: NavItemsProps) {
+  return (
+    <NavigationMenu orientation={orientation}>
+      <NavigationMenuList
+        aria-orientation={orientation}
+        className={orientation === "vertical" ? "flex flex-col gap-2" : ""}>
+        {navbarLinks.map((props) => (
+          <NavigationMenuItem key={props.to}>
+            <NavLink {...props}>{props.label}</NavLink>
+          </NavigationMenuItem>
+        ))}
+        <NavigationMenuIndicator />
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
 }
 
 export default function Header() {
@@ -78,7 +127,7 @@ export default function Header() {
               <Martini className="h-6 w-6" />
               <span className="sr-only">Barkeeper</span>
             </Link>
-            <NavItems />
+            <NavItems orientation="vertical" />
           </nav>
         </SheetContent>
       </Sheet>
@@ -102,6 +151,7 @@ export default function Header() {
 
 function UserMenu() {
   const { logout, user } = useAuth0();
+  const barkeeperUser = useUser(user.sub);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -111,7 +161,9 @@ function UserMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Cheers, {user?.name}!</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          Cheers, {barkeeperUser.data?.DisplayName}!
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link to={"/settings"}>Settings</Link>

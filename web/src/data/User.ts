@@ -1,9 +1,10 @@
 import { useRequest } from "@/hooks/useRequest";
 import { User } from "@/types/Models";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 export const userUrls = {
   get: "User/Get",
+  update: "User/Update",
 };
 
 export const userKeys = {
@@ -17,5 +18,12 @@ export function useUser(id: string) {
     queryKey,
     queryFn: () => get(),
     enabled: !!id,
+  });
+}
+
+export function useUpdateUser() {
+  const { post } = useRequest<User>(userUrls.update);
+  return useMutation({
+    mutationFn: (body: Pick<User, "Id" | "DisplayName">) => post(body),
   });
 }

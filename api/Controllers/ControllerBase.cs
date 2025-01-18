@@ -8,7 +8,7 @@ namespace Barkeeper.Controllers;
 [ApiController]
 [Route("[controller]/[action]")]
 public class ControllerBase : Controller {
-    protected string CurrentUserId => HttpContext.User.Identity.Name;
+    protected string CurrentUserId => HttpContext.User.Identity?.Name ?? string.Empty;
     protected string[] CurrentUserPermissions => HttpContext.User.FindAll("permissions").Select(x => x.Value).ToArray();
 
     protected bool UserHasPermission(string Permission) => CurrentUserPermissions.Contains(Permission);
