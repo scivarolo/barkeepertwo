@@ -8,8 +8,8 @@ namespace Barkeeper.Services;
 public class CocktailService(ICocktailRepository CocktailRepo) : ICocktailService {
     private readonly ICocktailRepository cocktailRepo = CocktailRepo;
 
-    public async Task<PagedResult<Cocktail>> GetRecentCocktails(int Quantity = 10, int Page = 0) {
-        return await cocktailRepo.GetRecentCocktails(Quantity, Page);
+    public async Task<PagedResult<Cocktail>> GetRecentCocktails(PagingOptions Options) {
+        return await cocktailRepo.GetRecentCocktails(Options);
     }
 
     public async Task<Cocktail?> GetCocktailById(int Id) {

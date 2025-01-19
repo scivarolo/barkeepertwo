@@ -13,7 +13,7 @@ export const userKeys = {
 
 export function useUser(id: string) {
   const queryKey = userKeys.get(id);
-  const { get } = useRequest<User>(...queryKey);
+  const { get } = useRequest<User, Pick<User, "Id">>(...queryKey);
   return useQuery({
     queryKey,
     queryFn: () => get(),
@@ -22,8 +22,10 @@ export function useUser(id: string) {
 }
 
 export function useUpdateUser() {
-  const { post } = useRequest<User>(userUrls.update);
-  return useMutation({
-    mutationFn: (body: Pick<User, "Id" | "DisplayName">) => post(body),
+  const { post } = useRequest<User, Pick<User, "Id" | "DisplayName">>(
+    userUrls.update,
+  );
+  return useMutation<User, Error, Pick<User, "Id" | "DisplayName">>({
+    mutationFn: (body) => post(body),
   });
 }

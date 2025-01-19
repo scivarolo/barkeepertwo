@@ -48,7 +48,9 @@ builder.Services
     });
 
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICocktailService, CocktailService>();
 
+builder.Services.AddScoped<ICocktailRepository, CocktailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddSwaggerGen();

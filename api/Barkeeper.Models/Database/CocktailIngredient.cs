@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Barkeeper.Models.Database;
@@ -29,6 +30,7 @@ public partial class CocktailIngredient {
     [Column("order")]
     public int Order { get; set; }
 
+    [JsonIgnore]
     [ForeignKey("CocktailId")]
     [InverseProperty("CocktailIngredients")]
     public virtual Cocktail Cocktail { get; set; } = null!;

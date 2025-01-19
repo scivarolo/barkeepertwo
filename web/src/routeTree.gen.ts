@@ -17,6 +17,8 @@ import { Route as SettingsIndexImport } from './routes/settings/index'
 import { Route as CompleteProfileIndexImport } from './routes/complete-profile/index'
 import { Route as CocktailsIndexImport } from './routes/cocktails/index'
 import { Route as BarIndexImport } from './routes/bar/index'
+import { Route as CocktailsCocktailIdImport } from './routes/cocktails/$cocktailId'
+import { Route as CocktailsCocktailIdEditImport } from './routes/cocktails/$cocktailId.edit'
 
 // Create/Update Routes
 
@@ -56,6 +58,18 @@ const BarIndexRoute = BarIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CocktailsCocktailIdRoute = CocktailsCocktailIdImport.update({
+  id: '/cocktails/$cocktailId',
+  path: '/cocktails/$cocktailId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CocktailsCocktailIdEditRoute = CocktailsCocktailIdEditImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => CocktailsCocktailIdRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -65,6 +79,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/cocktails/$cocktailId': {
+      id: '/cocktails/$cocktailId'
+      path: '/cocktails/$cocktailId'
+      fullPath: '/cocktails/$cocktailId'
+      preLoaderRoute: typeof CocktailsCocktailIdImport
       parentRoute: typeof rootRoute
     }
     '/bar/': {
@@ -102,69 +123,100 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShoppingListIndexImport
       parentRoute: typeof rootRoute
     }
+    '/cocktails/$cocktailId/edit': {
+      id: '/cocktails/$cocktailId/edit'
+      path: '/edit'
+      fullPath: '/cocktails/$cocktailId/edit'
+      preLoaderRoute: typeof CocktailsCocktailIdEditImport
+      parentRoute: typeof CocktailsCocktailIdImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface CocktailsCocktailIdRouteChildren {
+  CocktailsCocktailIdEditRoute: typeof CocktailsCocktailIdEditRoute
+}
+
+const CocktailsCocktailIdRouteChildren: CocktailsCocktailIdRouteChildren = {
+  CocktailsCocktailIdEditRoute: CocktailsCocktailIdEditRoute,
+}
+
+const CocktailsCocktailIdRouteWithChildren =
+  CocktailsCocktailIdRoute._addFileChildren(CocktailsCocktailIdRouteChildren)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
   '/complete-profile': typeof CompleteProfileIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/shopping-list': typeof ShoppingListIndexRoute
+  '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
   '/complete-profile': typeof CompleteProfileIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/shopping-list': typeof ShoppingListIndexRoute
+  '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/bar/': typeof BarIndexRoute
   '/cocktails/': typeof CocktailsIndexRoute
   '/complete-profile/': typeof CompleteProfileIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/shopping-list/': typeof ShoppingListIndexRoute
+  '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cocktails/$cocktailId'
     | '/bar'
     | '/cocktails'
     | '/complete-profile'
     | '/settings'
     | '/shopping-list'
+    | '/cocktails/$cocktailId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cocktails/$cocktailId'
     | '/bar'
     | '/cocktails'
     | '/complete-profile'
     | '/settings'
     | '/shopping-list'
+    | '/cocktails/$cocktailId/edit'
   id:
     | '__root__'
     | '/'
+    | '/cocktails/$cocktailId'
     | '/bar/'
     | '/cocktails/'
     | '/complete-profile/'
     | '/settings/'
     | '/shopping-list/'
+    | '/cocktails/$cocktailId/edit'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
   BarIndexRoute: typeof BarIndexRoute
   CocktailsIndexRoute: typeof CocktailsIndexRoute
   CompleteProfileIndexRoute: typeof CompleteProfileIndexRoute
@@ -174,6 +226,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
   BarIndexRoute: BarIndexRoute,
   CocktailsIndexRoute: CocktailsIndexRoute,
   CompleteProfileIndexRoute: CompleteProfileIndexRoute,
@@ -192,6 +245,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/cocktails/$cocktailId",
         "/bar/",
         "/cocktails/",
         "/complete-profile/",
@@ -201,6 +255,12 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/cocktails/$cocktailId": {
+      "filePath": "cocktails/$cocktailId.tsx",
+      "children": [
+        "/cocktails/$cocktailId/edit"
+      ]
     },
     "/bar/": {
       "filePath": "bar/index.tsx"
@@ -216,6 +276,10 @@ export const routeTree = rootRoute
     },
     "/shopping-list/": {
       "filePath": "shopping-list/index.tsx"
+    },
+    "/cocktails/$cocktailId/edit": {
+      "filePath": "cocktails/$cocktailId.edit.tsx",
+      "parent": "/cocktails/$cocktailId"
     }
   }
 }

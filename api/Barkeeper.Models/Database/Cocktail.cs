@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Barkeeper.Models.Database;
 
@@ -36,6 +37,7 @@ public partial class Cocktail {
 
     [InverseProperty("Cocktail")]
     public virtual ICollection<TabCocktail> TabCocktails { get; set; } = new List<TabCocktail>();
+
 
     [InverseProperty("Cocktail")]
     public virtual ICollection<UserCocktail> UserCocktails { get; set; } = new List<UserCocktail>();
