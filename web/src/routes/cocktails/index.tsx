@@ -1,7 +1,6 @@
 import CocktailCard from "@/components/cocktails/CocktailCard";
 import PageHeader from "@/components/page/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import LoadingIndicator from "@/components/utility/LoadingIndicator";
 import NoItems from "@/components/utility/NoItems";
 import { useRecentCocktails } from "@/data/Cocktail";
@@ -32,8 +31,8 @@ function RouteComponent() {
         <LoadingIndicator
           isLoading={cocktails.isLoading}
           text="Loading recent cocktails...">
-          {cocktails.data?.Items?.length > 0 ? (
-            cocktails.data.Items.map((cocktail) => (
+          {(cocktails.data?.Items?.length ?? 0 > 0) ? (
+            cocktails.data?.Items.map((cocktail) => (
               <CocktailCard cocktail={cocktail} />
             ))
           ) : (

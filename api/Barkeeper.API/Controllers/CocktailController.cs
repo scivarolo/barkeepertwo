@@ -1,5 +1,6 @@
 using Barkeeper.Models.Database;
 using Barkeeper.Models.Utility;
+using Barkeeper.Models.ViewModels;
 using Barkeeper.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,5 +15,11 @@ public class CocktailController(ICocktailService CocktailService) : BarkeeperCon
     public async Task<PagedResult<Cocktail>> RecentCocktails([FromQuery] PagingOptions Options) {
         var cocktails = await cocktailService.GetRecentCocktails(Options);
         return cocktails;
+    }
+
+    [HttpGet]
+    public async Task<CocktailViewModel?> GetCocktail([FromQuery] int Id) {
+        var cocktail = await cocktailService.GetCocktailView(Id);
+        return cocktail;
     }
 }

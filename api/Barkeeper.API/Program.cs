@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Barkeeper.Services.Interfaces;
 using Barkeeper.Services;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +46,7 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(options => {
         options.JsonSerializerOptions.PropertyNamingPolicy = null;
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 
 builder.Services.AddScoped<IUserService, UserService>();

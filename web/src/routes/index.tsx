@@ -2,7 +2,6 @@ import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "@/data/User";
 import { LoaderCircle } from "lucide-react";
-// import { useUser } from "./data/User";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -10,7 +9,7 @@ export const Route = createFileRoute("/")({
 
 function Dashboard() {
   const { user: authUser } = useAuth0();
-  const user = useUser(authUser?.sub);
+  const user = useUser(authUser?.sub ?? "");
 
   if (user.isLoading) {
     return (

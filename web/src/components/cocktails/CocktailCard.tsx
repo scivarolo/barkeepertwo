@@ -10,7 +10,9 @@ import { Link } from "@tanstack/react-router";
 
 export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
   return (
-    <Link to="/cocktails/$cocktailId">
+    <Link
+      to="/cocktails/$cocktailId"
+      params={{ cocktailId: cocktail.Id.toString() }}>
       <Card className="group transition-all hover:shadow-md">
         <CardHeader>
           <CardTitle className="transition-all group-hover:text-primary">
@@ -19,7 +21,7 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
           <CardDescription>{cocktail.Notes}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p>nothing yet</p>
+          <p>{cocktail.Instructions}</p>
         </CardContent>
       </Card>
     </Link>
