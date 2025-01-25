@@ -29,6 +29,7 @@ import {
 import { NavigationMenuLinkProps } from "@radix-ui/react-navigation-menu";
 import { forwardRef } from "react";
 import { useUser } from "@/data/User";
+import { UserHelper } from "@/lib/user";
 
 const navbarLinks = linkOptions([
   {
@@ -151,7 +152,7 @@ export default function Header() {
 
 function UserMenu() {
   const { logout, user } = useAuth0();
-  const barkeeperUser = useUser(user.sub);
+  const barkeeperUser = useUser(user?.sub ?? "");
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -167,6 +168,9 @@ function UserMenu() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Link to={"/settings"}>Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          {UserHelper.isAdmin(user) && <Link to={"/admin"}>Admin</Link>}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

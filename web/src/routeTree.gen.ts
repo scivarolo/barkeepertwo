@@ -17,6 +17,7 @@ import { Route as SettingsIndexImport } from './routes/settings/index'
 import { Route as CompleteProfileIndexImport } from './routes/complete-profile/index'
 import { Route as CocktailsIndexImport } from './routes/cocktails/index'
 import { Route as BarIndexImport } from './routes/bar/index'
+import { Route as AdminIndexImport } from './routes/admin/index'
 import { Route as CocktailsCocktailIdImport } from './routes/cocktails/$cocktailId'
 import { Route as CocktailsCocktailIdEditImport } from './routes/cocktails/$cocktailId.edit'
 
@@ -58,6 +59,12 @@ const BarIndexRoute = BarIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AdminIndexRoute = AdminIndexImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const CocktailsCocktailIdRoute = CocktailsCocktailIdImport.update({
   id: '/cocktails/$cocktailId',
   path: '/cocktails/$cocktailId',
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/cocktails/$cocktailId'
       fullPath: '/cocktails/$cocktailId'
       preLoaderRoute: typeof CocktailsCocktailIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminIndexImport
       parentRoute: typeof rootRoute
     }
     '/bar/': {
@@ -149,6 +163,7 @@ const CocktailsCocktailIdRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
   '/complete-profile': typeof CompleteProfileIndexRoute
@@ -160,6 +175,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
   '/complete-profile': typeof CompleteProfileIndexRoute
@@ -172,6 +188,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/admin/': typeof AdminIndexRoute
   '/bar/': typeof BarIndexRoute
   '/cocktails/': typeof CocktailsIndexRoute
   '/complete-profile/': typeof CompleteProfileIndexRoute
@@ -185,6 +202,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cocktails/$cocktailId'
+    | '/admin'
     | '/bar'
     | '/cocktails'
     | '/complete-profile'
@@ -195,6 +213,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cocktails/$cocktailId'
+    | '/admin'
     | '/bar'
     | '/cocktails'
     | '/complete-profile'
@@ -205,6 +224,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/cocktails/$cocktailId'
+    | '/admin/'
     | '/bar/'
     | '/cocktails/'
     | '/complete-profile/'
@@ -217,6 +237,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
+  AdminIndexRoute: typeof AdminIndexRoute
   BarIndexRoute: typeof BarIndexRoute
   CocktailsIndexRoute: typeof CocktailsIndexRoute
   CompleteProfileIndexRoute: typeof CompleteProfileIndexRoute
@@ -227,6 +248,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
+  AdminIndexRoute: AdminIndexRoute,
   BarIndexRoute: BarIndexRoute,
   CocktailsIndexRoute: CocktailsIndexRoute,
   CompleteProfileIndexRoute: CompleteProfileIndexRoute,
@@ -246,6 +268,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/cocktails/$cocktailId",
+        "/admin/",
         "/bar/",
         "/cocktails/",
         "/complete-profile/",
@@ -261,6 +284,9 @@ export const routeTree = rootRoute
       "children": [
         "/cocktails/$cocktailId/edit"
       ]
+    },
+    "/admin/": {
+      "filePath": "admin/index.tsx"
     },
     "/bar/": {
       "filePath": "bar/index.tsx"
