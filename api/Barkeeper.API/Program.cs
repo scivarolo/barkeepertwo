@@ -51,9 +51,11 @@ builder.Services
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICocktailService, CocktailService>();
+builder.Services.AddScoped<IIngredientService, IngredientService>();
 
 builder.Services.AddScoped<ICocktailRepository, CocktailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
 builder.Services.AddSwaggerGen();
 
