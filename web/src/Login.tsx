@@ -1,32 +1,25 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { Button } from "./components/ui/button";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card";
+import { Button, Card, CardFooter, CardHeader } from "@heroui/react";
+
 import { LoaderCircle, Martini } from "lucide-react";
 
 export default function Login() {
   const { loginWithRedirect, isLoading } = useAuth0();
   return (
-    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-500 to-blue-800 p-10 dark:from-zinc-900 dark:to-zinc-900">
-      <Card className="w-full max-w-sm shadow-gray-500 dark:shadow-none">
+    <div className="flex h-screen items-center justify-center bg-gradient-to-br from-blue-700 to-blue-800 p-10 dark:from-zinc-800 dark:to-zinc-900">
+      <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">
-            <span className="flex align-baseline">
-              <Martini className="mr-2 inline-block" size={32} /> Barkeeper
-            </span>
-          </CardTitle>
-          <CardDescription>
-            Discover your next favorite cocktail using the ingredients you
-            already have.
-          </CardDescription>
+          <Martini className="mr-2 inline-block" size={32} />
+          <div className="flex flex-col">
+            <p className="text-md">Barkeeper</p>
+            <p className="text-small">
+              Discover your next favorite cocktail using the ingredients you
+              already have.
+            </p>
+          </div>
         </CardHeader>
         <CardFooter>
-          <Button onClick={() => loginWithRedirect()}>
+          <Button onPress={() => loginWithRedirect()} color="primary">
             {isLoading ? (
               <>
                 <LoaderCircle className="mr-2 animate-spin" /> Logging in...

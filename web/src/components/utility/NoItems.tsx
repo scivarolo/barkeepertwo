@@ -1,5 +1,5 @@
+import { Alert } from "@heroui/react";
 import { LucideProps, WineOff } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { cloneElement } from "react";
 
 interface NoItemsProps {
@@ -10,14 +10,16 @@ interface NoItemsProps {
 
 export default function NoItems({ title, description, icon }: NoItemsProps) {
   return (
-    <Alert>
-      {icon ? (
-        cloneElement(icon, { className: "h-4 w-4" })
-      ) : (
-        <WineOff className="h-4 w-4" />
-      )}
-      <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{description}</AlertDescription>
-    </Alert>
+    <Alert
+      description={description}
+      title={title}
+      icon={
+        icon ? (
+          cloneElement(icon, { className: "h-4 w-4" })
+        ) : (
+          <WineOff className="h-4 w-4" />
+        )
+      }
+    />
   );
 }

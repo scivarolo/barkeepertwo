@@ -1,26 +1,21 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Martini, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { useAuth0 } from "@auth0/auth0-react";
-import { Input } from "@/components/ui/input";
 import { useUpdateUser } from "@/data/User";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import { z } from "zod";
 import { useForm } from "@tanstack/react-form";
 import { User } from "@/types/Models";
+import {
+  Card,
+  CardHeader,
+  Input,
+  CardFooter,
+  Tooltip,
+  Button,
+  CardBody,
+} from "@heroui/react";
 
 export const Route = createFileRoute("/complete-profile/")({
   component: RouteComponent,
@@ -44,7 +39,7 @@ function CompleteUserProfile() {
 
   const form = useForm<Pick<User, "Id" | "DisplayName">>({
     defaultValues: {
-      Id: authUser?.sub,
+      Id: authUser?.sub ?? "",
       DisplayName: "",
     },
     validators: {
@@ -63,18 +58,14 @@ function CompleteUserProfile() {
           form.handleSubmit();
         }}>
         <Card className="w-full max-w-sm shadow-gray-500 dark:shadow-none">
-          <CardHeader>
-            <CardTitle className="text-2xl">
-              <span className="flex align-baseline">
-                <Martini className="mr-2 inline-block" size={32} /> Welcome!
-              </span>
-            </CardTitle>
-            <CardDescription>
+          <CardHeader className="flex items-center text-xl font-semibold">
+            <Martini className="mr-2 inline-block" size={32} /> <p>Welcome!</p>
+          </CardHeader>
+          <CardBody>
+            <p className="mb-4">
               Before you jump in to discover your next favorite cocktail, what
               would you like to be called?
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
             <form.Field name="DisplayName">
               {(field) => (
                 <>
@@ -87,48 +78,52 @@ function CompleteUserProfile() {
                   {field.state.meta.isTouched
                     ? field.state.meta.errors?.map((error) => (
                         <p
-                          className="mt-2 text-sm font-medium text-destructive"
-                          key={error.toString()}>
+                          className="text-destructive mt-2 text-sm font-medium"
+                          key={error?.toString()}>
                           {error}
                         </p>
                       ))
                     : null}
                   {updateUser.isError && (
-                    <p className="text-sm font-medium text-destructive">
+                    <p className="text-destructive text-sm font-medium">
                       Username already exists
                     </p>
                   )}
                 </>
               )}
             </form.Field>
-          </CardContent>
-          <CardFooter className="flex flex-row-reverse">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild disabled={!form.state.isFieldsValid}>
+          </CardBody>
+          <form.Subscribe selector={(state) => [state.canSubmit]}>
+            {([canSubmit]) => (
+              <CardFooter className="flex flex-row-reverse">
+                <Tooltip
+                  content={
+                    !canSubmit ? "A name is required to continue" : undefined
+                  }
+                  color="danger"
+                  isDisabled={canSubmit}>
                   <span>
-                    <Button disabled={!form.state.isFieldsValid} type="submit">
+                    <Button
+                      isDisabled={!canSubmit}
+                      type="submit"
+                      color="primary">
                       {updateUser.isPending ? (
                         <Loader2 className="animate-spin" />
                       ) : null}{" "}
                       Save
                     </Button>
                   </span>
-                </TooltipTrigger>
-                <TooltipContent>
-                  {!form.state.isFieldsValid
-                    ? "A name is required to continue"
-                    : undefined}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <Button
-              variant="destructive"
-              onClick={() => logout()}
-              className="mr-auto">
-              Log Out
-            </Button>
-          </CardFooter>
+                </Tooltip>
+                <Button
+                  variant="ghost"
+                  color="danger"
+                  onPress={() => logout()}
+                  className="mr-auto">
+                  Log Out
+                </Button>
+              </CardFooter>
+            )}
+          </form.Subscribe>
         </Card>
       </form>
     </div>

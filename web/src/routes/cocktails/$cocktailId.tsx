@@ -1,6 +1,6 @@
 import PageHeader from "@/components/page/PageHeader";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cocktailQueries } from "@/data/Cocktail";
+import { Card, CardBody } from "@heroui/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
@@ -35,13 +35,12 @@ function RouteComponent() {
         <div>
           <h3 className="mb-3 text-2xl text-primary">Ingredients</h3>
           <Card>
-            {/* <CardHeader>
-              <CardTitle>Ingredients</CardTitle>
-            </CardHeader> */}
-            <CardContent className="pb-0">
-              <dl className="divide-y divide-gray-100">
+            <CardBody className="p-6">
+              <dl className="divide-y divide-gray-200">
                 {cocktail.CocktailIngredients.map((ci) => (
-                  <div key={ci.Id} className="grid grid-cols-2 gap-4 py-6">
+                  <div
+                    key={ci.Id}
+                    className="grid grid-cols-2 gap-4 py-5 first:pt-0 last:pb-0">
                     <dt className="font-medium text-gray-900">
                       {ci.Ingredient.Name}
                       {ci.Product ? (
@@ -56,15 +55,15 @@ function RouteComponent() {
                   </div>
                 ))}
               </dl>
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
         <div className="col-span-3">
           <h3 className="mb-3 text-2xl text-primary">Instructions</h3>
           <Card>
-            <CardContent className="pt-6">
+            <CardBody className="p-6">
               <p>{cocktail.Instructions}</p>
-            </CardContent>
+            </CardBody>
           </Card>
         </div>
       </div>

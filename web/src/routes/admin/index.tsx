@@ -1,3 +1,4 @@
+import PageHeader from "@/components/page/PageHeader";
 import { UserHelper } from "@/lib/user";
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
@@ -11,5 +12,9 @@ export const Route = createFileRoute("/admin/")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/admin/"!</div>;
+  return (
+    <div>
+      <PageHeader title="Admin" />
+    </div>
+  );
 }

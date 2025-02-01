@@ -1,10 +1,10 @@
 import CocktailCard from "@/components/cocktails/CocktailCard";
 import PageHeader from "@/components/page/PageHeader";
-import { Button } from "@/components/ui/button";
 import LoadingIndicator from "@/components/utility/LoadingIndicator";
 import NoItems from "@/components/utility/NoItems";
 import { useRecentCocktails } from "@/data/Cocktail";
 import { PagingOptions, SortDirection } from "@/types/Utility";
+import { Button } from "@heroui/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
