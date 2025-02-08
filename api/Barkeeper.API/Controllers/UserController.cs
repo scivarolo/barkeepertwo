@@ -8,6 +8,15 @@ public class UserController(IUserService UserService) : BarkeeperControllerBase 
     [HttpGet]
     public async Task<IActionResult> Get(string Id) {
         var user = await UserService.GetUser(Id);
+        if (Id == CurrentUserId) {
+            if (user == null || user.DisplayName != CurrentUserName) {
+                user = await UserService.CreateOrUpdateUser(new Models.Database.User {
+                    Id = Id,
+                    DisplayName = CurrentUserName,
+                });
+            }
+        }
+
         if (user == null) {
             return NoContent();
         } else {

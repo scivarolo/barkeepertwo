@@ -14,7 +14,6 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as ShoppingListIndexImport } from './routes/shopping-list/index'
 import { Route as SettingsIndexImport } from './routes/settings/index'
-import { Route as CompleteProfileIndexImport } from './routes/complete-profile/index'
 import { Route as CocktailsIndexImport } from './routes/cocktails/index'
 import { Route as BarIndexImport } from './routes/bar/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
@@ -38,12 +37,6 @@ const ShoppingListIndexRoute = ShoppingListIndexImport.update({
 const SettingsIndexRoute = SettingsIndexImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const CompleteProfileIndexRoute = CompleteProfileIndexImport.update({
-  id: '/complete-profile/',
-  path: '/complete-profile/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -116,13 +109,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CocktailsIndexImport
       parentRoute: typeof rootRoute
     }
-    '/complete-profile/': {
-      id: '/complete-profile/'
-      path: '/complete-profile'
-      fullPath: '/complete-profile'
-      preLoaderRoute: typeof CompleteProfileIndexImport
-      parentRoute: typeof rootRoute
-    }
     '/settings/': {
       id: '/settings/'
       path: '/settings'
@@ -166,7 +152,6 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
-  '/complete-profile': typeof CompleteProfileIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/shopping-list': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
@@ -178,7 +163,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
-  '/complete-profile': typeof CompleteProfileIndexRoute
   '/settings': typeof SettingsIndexRoute
   '/shopping-list': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
@@ -191,7 +175,6 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/bar/': typeof BarIndexRoute
   '/cocktails/': typeof CocktailsIndexRoute
-  '/complete-profile/': typeof CompleteProfileIndexRoute
   '/settings/': typeof SettingsIndexRoute
   '/shopping-list/': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
@@ -205,7 +188,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bar'
     | '/cocktails'
-    | '/complete-profile'
     | '/settings'
     | '/shopping-list'
     | '/cocktails/$cocktailId/edit'
@@ -216,7 +198,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/bar'
     | '/cocktails'
-    | '/complete-profile'
     | '/settings'
     | '/shopping-list'
     | '/cocktails/$cocktailId/edit'
@@ -227,7 +208,6 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/bar/'
     | '/cocktails/'
-    | '/complete-profile/'
     | '/settings/'
     | '/shopping-list/'
     | '/cocktails/$cocktailId/edit'
@@ -240,7 +220,6 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   BarIndexRoute: typeof BarIndexRoute
   CocktailsIndexRoute: typeof CocktailsIndexRoute
-  CompleteProfileIndexRoute: typeof CompleteProfileIndexRoute
   SettingsIndexRoute: typeof SettingsIndexRoute
   ShoppingListIndexRoute: typeof ShoppingListIndexRoute
 }
@@ -251,7 +230,6 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   BarIndexRoute: BarIndexRoute,
   CocktailsIndexRoute: CocktailsIndexRoute,
-  CompleteProfileIndexRoute: CompleteProfileIndexRoute,
   SettingsIndexRoute: SettingsIndexRoute,
   ShoppingListIndexRoute: ShoppingListIndexRoute,
 }
@@ -271,7 +249,6 @@ export const routeTree = rootRoute
         "/admin/",
         "/bar/",
         "/cocktails/",
-        "/complete-profile/",
         "/settings/",
         "/shopping-list/"
       ]
@@ -293,9 +270,6 @@ export const routeTree = rootRoute
     },
     "/cocktails/": {
       "filePath": "cocktails/index.tsx"
-    },
-    "/complete-profile/": {
-      "filePath": "complete-profile/index.tsx"
     },
     "/settings/": {
       "filePath": "settings/index.tsx"

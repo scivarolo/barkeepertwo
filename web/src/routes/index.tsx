@@ -1,4 +1,4 @@
-import { createFileRoute, Navigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "@/data/User";
 import { LoaderCircle } from "lucide-react";
@@ -18,8 +18,6 @@ function Dashboard() {
         dashboard...
       </span>
     );
-  } else if (!user.data?.DisplayName) {
-    return <Navigate to="/complete-profile" />;
   }
 
   return (
