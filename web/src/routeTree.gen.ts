@@ -17,6 +17,7 @@ import { Route as SettingsIndexImport } from './routes/settings/index'
 import { Route as CocktailsIndexImport } from './routes/cocktails/index'
 import { Route as BarIndexImport } from './routes/bar/index'
 import { Route as AdminIndexImport } from './routes/admin/index'
+import { Route as IngredientsIngredientIdImport } from './routes/ingredients/$ingredientId'
 import { Route as CocktailsCocktailIdImport } from './routes/cocktails/$cocktailId'
 import { Route as CocktailsCocktailIdEditImport } from './routes/cocktails/$cocktailId.edit'
 
@@ -58,6 +59,12 @@ const AdminIndexRoute = AdminIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IngredientsIngredientIdRoute = IngredientsIngredientIdImport.update({
+  id: '/ingredients/$ingredientId',
+  path: '/ingredients/$ingredientId',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const CocktailsCocktailIdRoute = CocktailsCocktailIdImport.update({
   id: '/cocktails/$cocktailId',
   path: '/cocktails/$cocktailId',
@@ -86,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/cocktails/$cocktailId'
       fullPath: '/cocktails/$cocktailId'
       preLoaderRoute: typeof CocktailsCocktailIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/ingredients/$ingredientId': {
+      id: '/ingredients/$ingredientId'
+      path: '/ingredients/$ingredientId'
+      fullPath: '/ingredients/$ingredientId'
+      preLoaderRoute: typeof IngredientsIngredientIdImport
       parentRoute: typeof rootRoute
     }
     '/admin/': {
@@ -149,6 +163,7 @@ const CocktailsCocktailIdRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
@@ -160,6 +175,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
   '/cocktails': typeof CocktailsIndexRoute
@@ -172,6 +188,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/bar/': typeof BarIndexRoute
   '/cocktails/': typeof CocktailsIndexRoute
@@ -185,6 +202,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/cocktails/$cocktailId'
+    | '/ingredients/$ingredientId'
     | '/admin'
     | '/bar'
     | '/cocktails'
@@ -195,6 +213,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/cocktails/$cocktailId'
+    | '/ingredients/$ingredientId'
     | '/admin'
     | '/bar'
     | '/cocktails'
@@ -205,6 +224,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/cocktails/$cocktailId'
+    | '/ingredients/$ingredientId'
     | '/admin/'
     | '/bar/'
     | '/cocktails/'
@@ -217,6 +237,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
+  IngredientsIngredientIdRoute: typeof IngredientsIngredientIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BarIndexRoute: typeof BarIndexRoute
   CocktailsIndexRoute: typeof CocktailsIndexRoute
@@ -227,6 +248,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
+  IngredientsIngredientIdRoute: IngredientsIngredientIdRoute,
   AdminIndexRoute: AdminIndexRoute,
   BarIndexRoute: BarIndexRoute,
   CocktailsIndexRoute: CocktailsIndexRoute,
@@ -246,6 +268,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/cocktails/$cocktailId",
+        "/ingredients/$ingredientId",
         "/admin/",
         "/bar/",
         "/cocktails/",
@@ -261,6 +284,9 @@ export const routeTree = rootRoute
       "children": [
         "/cocktails/$cocktailId/edit"
       ]
+    },
+    "/ingredients/$ingredientId": {
+      "filePath": "ingredients/$ingredientId.tsx"
     },
     "/admin/": {
       "filePath": "admin/index.tsx"

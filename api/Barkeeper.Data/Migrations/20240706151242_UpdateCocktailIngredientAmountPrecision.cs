@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Barkeeper.Migrations {
+namespace Barkeeper.Data.Migrations {
     /// <inheritdoc />
     public partial class UpdateCocktailIngredientAmountPrecision : Migration {
         /// <inheritdoc />

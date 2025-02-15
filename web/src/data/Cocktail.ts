@@ -1,11 +1,10 @@
-import { useRequest } from "@/hooks/useRequest";
-import { BarkeeperRouterContext } from "@/routes/__root";
 import { Cocktail } from "@/types/Models";
 import { PagedResult, PagingOptions } from "@/types/Utility";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { constructGetRequest } from "./Utility";
 import { CocktailViewModel } from "@/types/ViewModels";
-import { GetById } from "@/types/Request";
+import { GetById, QueryParams, RequestBody } from "@/types/Request";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const cocktailUrls = {
   cocktail: "Cocktail/GetCocktail",
@@ -19,29 +18,39 @@ export const cocktailKeys = {
 };
 
 export const cocktailQueries = {
-  cocktail: (options: {
-    cocktailId: number;
-    context: BarkeeperRouterContext;
-  }) => {
+  cocktail: (
+    options: QueryParams<{
+      cocktailId: number;
+    }>,
+  ) => {
     const queryKey = cocktailKeys.cocktail(options.cocktailId);
     const [url, body] = queryKey;
-    const getFn = constructGetRequest<CocktailViewModel, GetById>({
-      context: options.context,
+    const queryFn = constructGetRequest<CocktailViewModel, GetById>({
+      auth: options.auth,
       url,
       body,
     });
     return queryOptions({
       queryKey,
-      queryFn: getFn,
+      queryFn,
+    });
+  },
+  recentCocktails: (options: QueryParams<RequestBody<PagingOptions>>) => {
+    const queryKey = cocktailKeys.recentCocktails(options.body);
+    const [url, body] = queryKey;
+    const queryFn = constructGetRequest<PagedResult<Cocktail>, PagingOptions>({
+      auth: options.auth,
+      url,
+      body,
+    });
+    return queryOptions({
+      queryKey,
+      queryFn,
     });
   },
 };
 
 export function useRecentCocktails(options: PagingOptions) {
-  const queryKey = cocktailKeys.recentCocktails(options);
-  const { get } = useRequest<PagedResult<Cocktail>, PagingOptions>(...queryKey);
-  return useQuery({
-    queryKey,
-    queryFn: () => get(),
-  });
+  const auth = useAuth0();
+  return useQuery(cocktailQueries.recentCocktails({ auth, body: options }));
 }

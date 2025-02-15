@@ -1,4 +1,4 @@
-import { CircleUser, Martini, Menu, Search } from "lucide-react";
+import { CircleUser, Martini } from "lucide-react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import ThemeToggle from "./ThemeToggle";
@@ -18,7 +18,6 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-  Input,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -103,7 +102,10 @@ export default function Header() {
           justify="start"
           className="hidden cursor-pointer sm:flex">
           {navbarLinks.map((props) => (
-            <NavLink className="hover:text-primary-700" {...props}>
+            <NavLink
+              key={props.label}
+              className="hover:text-primary-700"
+              {...props}>
               {props.label}
             </NavLink>
           ))}
@@ -126,7 +128,10 @@ export default function Header() {
         </NavbarContent>
         <NavbarMenu>
           {navbarLinks.map((props) => (
-            <NavLink className="hover:text-primary-700" {...props}>
+            <NavLink
+              key={props.label}
+              className="hover:text-primary-700"
+              {...props}>
               {props.label}
             </NavLink>
           ))}

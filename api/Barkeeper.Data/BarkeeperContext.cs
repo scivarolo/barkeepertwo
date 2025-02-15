@@ -37,6 +37,7 @@ public partial class BarkeeperContext : DbContext {
             entity.HasKey(e => e.Id).HasName("Cocktail_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
 
             entity.HasOne(d => d.CreatedBy).WithMany(p => p.Cocktails)
                 .OnDelete(DeleteBehavior.Restrict)
@@ -63,6 +64,7 @@ public partial class BarkeeperContext : DbContext {
             entity.HasKey(e => e.Id).HasName("Ingredient_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
 
             entity.HasOne(d => d.CreatedBy).WithMany(p => p.Ingredients)
                 .OnDelete(DeleteBehavior.Restrict)
@@ -83,6 +85,7 @@ public partial class BarkeeperContext : DbContext {
             entity.HasKey(e => e.Id).HasName("Product_pkey");
 
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP").ValueGeneratedOnAddOrUpdate();
 
             entity.HasOne(d => d.CreatedBy).WithMany(p => p.Products)
                 .OnDelete(DeleteBehavior.Restrict)

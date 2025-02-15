@@ -1,40 +1,34 @@
+import { constructGetRequest, constructPostRequest } from "@/data/Utility";
 import { useAuth0 } from "@auth0/auth0-react";
-import ky from "ky";
 import { useCallback } from "react";
 
-export function useRequest<TResult, TRequestBody>(
+export function useGetRequest<TResult, TRequestBody>(
   url: string,
   body?: TRequestBody,
 ) {
-  const { getAccessTokenSilently } = useAuth0();
-  const baseUrl = "https://localhost:7115/";
+  const auth = useAuth0();
 
-  const get = useCallback(async () => {
-    const token = await getAccessTokenSilently();
-    console.log({ token });
-    const queryString = body
-      ? "?" + new URLSearchParams(body as any).toString()
-      : "";
-    const finalUrl = baseUrl + url + queryString;
-    return await ky
-      .get<TResult>(finalUrl, {
-        headers: { authorization: `Bearer ${token}` },
-      })
-      .json();
-  }, [url, body, getAccessTokenSilently]);
+  return useCallback(async () => {
+    const request = constructGetRequest<TResult, TRequestBody>({
+      auth,
+      url,
+      body,
+    });
+    return await request();
+  }, [url, body, auth]);
+}
+export function usePostRequest<TResult, TRequestBody>(url: string) {
+  const auth = useAuth0();
 
-  const post = useCallback(
+  return useCallback(
     async (requestBody: TRequestBody) => {
-      const token = await getAccessTokenSilently();
-      return await ky
-        .post<TResult>(baseUrl + url, {
-          headers: { authorization: `Bearer ${token}` },
-          json: requestBody ?? body,
-        })
-        .json();
+      const request = constructPostRequest<TResult, TRequestBody>({
+        auth,
+        url,
+        body: requestBody,
+      });
+      return await request();
     },
-    [url, body, getAccessTokenSilently],
+    [url, auth],
   );
-
-  return { get, post };
 }

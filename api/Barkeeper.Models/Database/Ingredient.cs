@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Barkeeper.Models.Request;
 using Microsoft.EntityFrameworkCore;
 
 namespace Barkeeper.Models.Database;
@@ -7,6 +8,14 @@ namespace Barkeeper.Models.Database;
 [Table("Ingredient")]
 [Index("Name", Name = "Ingredient_name_key", IsUnique = true)]
 public partial class Ingredient {
+    public Ingredient() { }
+    public Ingredient(IngredientRequest Request) {
+        Id = Request.Id;
+        Name = Request.Name;
+        CreatedById = Request.CreatedById;
+
+    }
+
     [Key]
     [Column("id")]
     public int Id { get; set; }

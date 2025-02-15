@@ -8,22 +8,14 @@ import {
   ToOptions,
   createRouter,
 } from "@tanstack/react-router";
-//
-// Import the generated route treexs
-import { routeTree } from "./routeTree.gen";
-import { NotFoundRoute } from "@tanstack/react-router";
-import { Route as rootRoute } from "./routes/__root.tsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const notFoundRoute = new NotFoundRoute({
-  getParentRoute: () => rootRoute,
-  component: () => "404 Not Found",
-});
+import { routeTree } from "./routeTree.gen";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
 const router = createRouter({
   routeTree,
-  notFoundRoute,
+  defaultNotFoundComponent: () => "404 Not Found",
   context: {
     auth: undefined!,
     queryClient,

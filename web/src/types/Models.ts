@@ -30,14 +30,17 @@ export interface CocktailIngredient {
   Product?: Product;
 }
 
-export interface Ingredient {
+export interface IngredientFormValues {
   Id: number;
   Name: string;
   CreatedById: string;
+  IngredientTypeId?: string;
+}
+
+export interface Ingredient extends IngredientFormValues {
   CreatedAt: string;
   UpdatedAt: string;
-  IngredientTypeId?: string;
-  CocktailIngredients: CocktailIngredient[];
+  CocktailIngredients?: CocktailIngredient[];
   CreatedBy: User;
   IngredientType?: IngredientType;
 }

@@ -1,16 +1,16 @@
-import { BarkeeperRouterContext } from "@/routes/__root";
+import { Auth0ContextInterface, User } from "@auth0/auth0-react";
 import ky from "ky";
 
 const baseUrl = "https://localhost:7115/";
 
 export function constructGetRequest<TResult, TRequestBody>(options: {
-  context: BarkeeperRouterContext;
+  auth: Auth0ContextInterface<User>;
   url: string;
   body?: TRequestBody;
 }) {
-  const { context, url, body } = options;
+  const { auth, url, body } = options;
   return async () => {
-    var token = await context.auth.getAccessTokenSilently();
+    const token = await auth.getAccessTokenSilently();
 
     const queryString = body
       ? "?" + new URLSearchParams(body as any).toString()
@@ -19,25 +19,29 @@ export function constructGetRequest<TResult, TRequestBody>(options: {
     return await ky
       .get<TResult>(finalUrl, {
         headers: { authorization: `Bearer ${token}` },
+        timeout: false,
       })
       .json();
   };
 }
 
 export function constructPostRequest<TResult, TRequestBody>(options: {
-  context: BarkeeperRouterContext;
+  auth: Auth0ContextInterface<User>;
   url: string;
   body: TRequestBody;
 }) {
-  const { context, url, body } = options;
+  const { auth, url, body } = options;
   return async () => {
-    var token = await context.auth.getAccessTokenSilently();
-    return async () =>
-      await ky
-        .post<TResult>(baseUrl + url, {
-          headers: { authorization: `Bearer ${token}` },
-          json: body,
-        })
-        .json();
+    const token = await auth.getAccessTokenSilently();
+
+    var result = await ky
+      .post<TResult>(baseUrl + url, {
+        headers: { authorization: `Bearer ${token}` },
+        timeout: false,
+        json: body,
+      })
+      .json();
+
+    return result;
   };
 }
