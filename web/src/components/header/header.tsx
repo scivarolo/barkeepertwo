@@ -83,8 +83,8 @@ export default function Header() {
     <>
       <Navbar
         isBordered
-        isBlurred
         isMenuOpen={isMenuOpen}
+        className="py-3"
         onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent justify="start">
           <NavbarMenuToggle
