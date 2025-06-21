@@ -8,157 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-// Import Routes
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShoppingListIndexRouteImport } from './routes/shopping-list/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as CocktailsIndexRouteImport } from './routes/cocktails/index'
+import { Route as BarIndexRouteImport } from './routes/bar/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as IngredientsIngredientIdRouteImport } from './routes/ingredients/$ingredientId'
+import { Route as CocktailsCocktailIdRouteImport } from './routes/cocktails/$cocktailId'
+import { Route as CocktailsCocktailIdEditRouteImport } from './routes/cocktails/$cocktailId.edit'
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as ShoppingListIndexImport } from './routes/shopping-list/index'
-import { Route as SettingsIndexImport } from './routes/settings/index'
-import { Route as CocktailsIndexImport } from './routes/cocktails/index'
-import { Route as BarIndexImport } from './routes/bar/index'
-import { Route as AdminIndexImport } from './routes/admin/index'
-import { Route as IngredientsIngredientIdImport } from './routes/ingredients/$ingredientId'
-import { Route as CocktailsCocktailIdImport } from './routes/cocktails/$cocktailId'
-import { Route as CocktailsCocktailIdEditImport } from './routes/cocktails/$cocktailId.edit'
-
-// Create/Update Routes
-
-const IndexRoute = IndexImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const ShoppingListIndexRoute = ShoppingListIndexImport.update({
+const ShoppingListIndexRoute = ShoppingListIndexRouteImport.update({
   id: '/shopping-list/',
   path: '/shopping-list/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const SettingsIndexRoute = SettingsIndexImport.update({
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
   id: '/settings/',
   path: '/settings/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CocktailsIndexRoute = CocktailsIndexImport.update({
+const CocktailsIndexRoute = CocktailsIndexRouteImport.update({
   id: '/cocktails/',
   path: '/cocktails/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const BarIndexRoute = BarIndexImport.update({
+const BarIndexRoute = BarIndexRouteImport.update({
   id: '/bar/',
   path: '/bar/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const AdminIndexRoute = AdminIndexImport.update({
+const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const IngredientsIngredientIdRoute = IngredientsIngredientIdImport.update({
+const IngredientsIngredientIdRoute = IngredientsIngredientIdRouteImport.update({
   id: '/ingredients/$ingredientId',
   path: '/ingredients/$ingredientId',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CocktailsCocktailIdRoute = CocktailsCocktailIdImport.update({
+const CocktailsCocktailIdRoute = CocktailsCocktailIdRouteImport.update({
   id: '/cocktails/$cocktailId',
   path: '/cocktails/$cocktailId',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
-
-const CocktailsCocktailIdEditRoute = CocktailsCocktailIdEditImport.update({
+const CocktailsCocktailIdEditRoute = CocktailsCocktailIdEditRouteImport.update({
   id: '/edit',
   path: '/edit',
   getParentRoute: () => CocktailsCocktailIdRoute,
 } as any)
-
-// Populate the FileRoutesByPath interface
-
-declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/cocktails/$cocktailId': {
-      id: '/cocktails/$cocktailId'
-      path: '/cocktails/$cocktailId'
-      fullPath: '/cocktails/$cocktailId'
-      preLoaderRoute: typeof CocktailsCocktailIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/ingredients/$ingredientId': {
-      id: '/ingredients/$ingredientId'
-      path: '/ingredients/$ingredientId'
-      fullPath: '/ingredients/$ingredientId'
-      preLoaderRoute: typeof IngredientsIngredientIdImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin/': {
-      id: '/admin/'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/bar/': {
-      id: '/bar/'
-      path: '/bar'
-      fullPath: '/bar'
-      preLoaderRoute: typeof BarIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/cocktails/': {
-      id: '/cocktails/'
-      path: '/cocktails'
-      fullPath: '/cocktails'
-      preLoaderRoute: typeof CocktailsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/settings/': {
-      id: '/settings/'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/shopping-list/': {
-      id: '/shopping-list/'
-      path: '/shopping-list'
-      fullPath: '/shopping-list'
-      preLoaderRoute: typeof ShoppingListIndexImport
-      parentRoute: typeof rootRoute
-    }
-    '/cocktails/$cocktailId/edit': {
-      id: '/cocktails/$cocktailId/edit'
-      path: '/edit'
-      fullPath: '/cocktails/$cocktailId/edit'
-      preLoaderRoute: typeof CocktailsCocktailIdEditImport
-      parentRoute: typeof CocktailsCocktailIdImport
-    }
-  }
-}
-
-// Create and export the route tree
-
-interface CocktailsCocktailIdRouteChildren {
-  CocktailsCocktailIdEditRoute: typeof CocktailsCocktailIdEditRoute
-}
-
-const CocktailsCocktailIdRouteChildren: CocktailsCocktailIdRouteChildren = {
-  CocktailsCocktailIdEditRoute: CocktailsCocktailIdEditRoute,
-}
-
-const CocktailsCocktailIdRouteWithChildren =
-  CocktailsCocktailIdRoute._addFileChildren(CocktailsCocktailIdRouteChildren)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -171,7 +76,6 @@ export interface FileRoutesByFullPath {
   '/shopping-list': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
-
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
@@ -183,9 +87,8 @@ export interface FileRoutesByTo {
   '/shopping-list': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
-
 export interface FileRoutesById {
-  __root__: typeof rootRoute
+  __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
@@ -196,7 +99,6 @@ export interface FileRoutesById {
   '/shopping-list/': typeof ShoppingListIndexRoute
   '/cocktails/$cocktailId/edit': typeof CocktailsCocktailIdEditRoute
 }
-
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
@@ -233,7 +135,6 @@ export interface FileRouteTypes {
     | '/cocktails/$cocktailId/edit'
   fileRoutesById: FileRoutesById
 }
-
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
@@ -245,6 +146,85 @@ export interface RootRouteChildren {
   ShoppingListIndexRoute: typeof ShoppingListIndexRoute
 }
 
+declare module '@tanstack/react-router' {
+  interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shopping-list/': {
+      id: '/shopping-list/'
+      path: '/shopping-list'
+      fullPath: '/shopping-list'
+      preLoaderRoute: typeof ShoppingListIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/': {
+      id: '/settings/'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cocktails/': {
+      id: '/cocktails/'
+      path: '/cocktails'
+      fullPath: '/cocktails'
+      preLoaderRoute: typeof CocktailsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bar/': {
+      id: '/bar/'
+      path: '/bar'
+      fullPath: '/bar'
+      preLoaderRoute: typeof BarIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ingredients/$ingredientId': {
+      id: '/ingredients/$ingredientId'
+      path: '/ingredients/$ingredientId'
+      fullPath: '/ingredients/$ingredientId'
+      preLoaderRoute: typeof IngredientsIngredientIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cocktails/$cocktailId': {
+      id: '/cocktails/$cocktailId'
+      path: '/cocktails/$cocktailId'
+      fullPath: '/cocktails/$cocktailId'
+      preLoaderRoute: typeof CocktailsCocktailIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cocktails/$cocktailId/edit': {
+      id: '/cocktails/$cocktailId/edit'
+      path: '/edit'
+      fullPath: '/cocktails/$cocktailId/edit'
+      preLoaderRoute: typeof CocktailsCocktailIdEditRouteImport
+      parentRoute: typeof CocktailsCocktailIdRoute
+    }
+  }
+}
+
+interface CocktailsCocktailIdRouteChildren {
+  CocktailsCocktailIdEditRoute: typeof CocktailsCocktailIdEditRoute
+}
+
+const CocktailsCocktailIdRouteChildren: CocktailsCocktailIdRouteChildren = {
+  CocktailsCocktailIdEditRoute: CocktailsCocktailIdEditRoute,
+}
+
+const CocktailsCocktailIdRouteWithChildren =
+  CocktailsCocktailIdRoute._addFileChildren(CocktailsCocktailIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
@@ -255,58 +235,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsIndexRoute: SettingsIndexRoute,
   ShoppingListIndexRoute: ShoppingListIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-/* ROUTE_MANIFEST_START
-{
-  "routes": {
-    "__root__": {
-      "filePath": "__root.tsx",
-      "children": [
-        "/",
-        "/cocktails/$cocktailId",
-        "/ingredients/$ingredientId",
-        "/admin/",
-        "/bar/",
-        "/cocktails/",
-        "/settings/",
-        "/shopping-list/"
-      ]
-    },
-    "/": {
-      "filePath": "index.tsx"
-    },
-    "/cocktails/$cocktailId": {
-      "filePath": "cocktails/$cocktailId.tsx",
-      "children": [
-        "/cocktails/$cocktailId/edit"
-      ]
-    },
-    "/ingredients/$ingredientId": {
-      "filePath": "ingredients/$ingredientId.tsx"
-    },
-    "/admin/": {
-      "filePath": "admin/index.tsx"
-    },
-    "/bar/": {
-      "filePath": "bar/index.tsx"
-    },
-    "/cocktails/": {
-      "filePath": "cocktails/index.tsx"
-    },
-    "/settings/": {
-      "filePath": "settings/index.tsx"
-    },
-    "/shopping-list/": {
-      "filePath": "shopping-list/index.tsx"
-    },
-    "/cocktails/$cocktailId/edit": {
-      "filePath": "cocktails/$cocktailId.edit.tsx",
-      "parent": "/cocktails/$cocktailId"
-    }
-  }
-}
-ROUTE_MANIFEST_END */
