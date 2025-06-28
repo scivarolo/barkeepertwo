@@ -172,9 +172,17 @@ function UserMenu() {
             Settings
           </DropdownItem>
           {UserHelper.isAdmin(user) ? (
-            <DropdownItem key="Admin" href="/admin" className="font-sans">
-              Admin
-            </DropdownItem>
+            <>
+              <DropdownItem key="Admin" href="/admin" className="font-sans">
+                Admin
+              </DropdownItem>
+              <DropdownItem
+                key="ThemeDemo"
+                href="/theme-demo"
+                className="font-sans">
+                Theme Demo
+              </DropdownItem>
+            </>
           ) : null}
         </DropdownSection>
         <DropdownItem

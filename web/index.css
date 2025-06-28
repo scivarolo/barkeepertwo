@@ -7,13 +7,15 @@
 
 /* Import premium fonts for cocktail app */
 
-:root {
+@theme {
   /* Font families */
-  --font-family-sans:
+  --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-family-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-family-mono:
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  --font-mono:
     "JetBrains Mono", ui-monospace, "SFMono-Regular", Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
 
@@ -45,23 +47,6 @@
   /* Letter spacing */
   --letter-spacing-cocktail: 0.02em;
   --letter-spacing-elegant: 0.05em;
-}
-
-/* Set default font families */
-.font-sans {
-  font-family: var(--font-family-sans);
-}
-
-.font-display {
-  font-family: var(--font-family-display);
-}
-
-.font-serif {
-  font-family: var(--font-family-display);
-}
-
-.font-mono {
-  font-family: var(--font-family-mono);
 }
 
 /* Typography utilities */
@@ -108,3 +93,24 @@
 .tracking-elegant {
   letter-spacing: var(--letter-spacing-elegant);
 }
+
+/* Subtle shadow utilities
+.shadow-subtle-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-subtle {
+  box-shadow: var(--shadow-base);
+}
+
+.shadow-subtle-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-subtle-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.shadow-subtle-xl {
+  box-shadow: var(--shadow-xl);
+} */
