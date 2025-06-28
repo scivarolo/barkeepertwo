@@ -34,7 +34,7 @@ export interface IngredientFormValues {
   Id: number;
   Name: string;
   CreatedById: string;
-  IngredientTypeId?: string;
+  IngredientTypeId?: number;
 }
 
 export interface Ingredient extends IngredientFormValues {

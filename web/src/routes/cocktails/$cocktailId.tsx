@@ -8,8 +8,8 @@ export const Route = createFileRoute("/cocktails/$cocktailId")({
   component: RouteComponent,
   loader: async ({ context, params }) => {
     const queryOptions = cocktailQueries.cocktail({
-      context,
-      cocktailId: Number(params.cocktailId),
+      auth: context.auth,
+      request: { cocktailId: Number(params.cocktailId) },
     });
     return context.queryClient.ensureQueryData(queryOptions);
   },
@@ -20,8 +20,8 @@ function RouteComponent() {
   const context = Route.useRouteContext();
   const cocktailQuery = useSuspenseQuery(
     cocktailQueries.cocktail({
-      cocktailId: Number(params.cocktailId),
-      context,
+      request: { cocktailId: Number(params.cocktailId) },
+      auth: context.auth,
     }),
   );
   const cocktail = cocktailQuery.data;
@@ -33,7 +33,7 @@ function RouteComponent() {
       />
       <div className="grid grid-cols-4 gap-4">
         <div>
-          <h3 className="mb-3 text-2xl text-primary">Ingredients</h3>
+          <h3 className="text-primary mb-3 text-2xl">Ingredients</h3>
           <Card>
             <CardBody className="p-6">
               <dl className="divide-y divide-gray-200">
@@ -49,7 +49,7 @@ function RouteComponent() {
                         </p>
                       ) : null}
                     </dt>
-                    <dd className="text-right text-primary">
+                    <dd className="text-primary text-right">
                       {ci.Amount} {ci.Units}
                     </dd>
                   </div>
@@ -59,7 +59,7 @@ function RouteComponent() {
           </Card>
         </div>
         <div className="col-span-3">
-          <h3 className="mb-3 text-2xl text-primary">Instructions</h3>
+          <h3 className="text-primary mb-3 text-2xl">Instructions</h3>
           <Card>
             <CardBody className="p-6">
               <p>{cocktail.Instructions}</p>

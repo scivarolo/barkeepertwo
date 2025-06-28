@@ -23,7 +23,7 @@ export const cocktailQueries = {
       cocktailId: number;
     }>,
   ) => {
-    const queryKey = cocktailKeys.cocktail(options.cocktailId);
+    const queryKey = cocktailKeys.cocktail(options.request.cocktailId);
     const [url, body] = queryKey;
     const queryFn = constructGetRequest<CocktailViewModel, GetById>({
       auth: options.auth,
@@ -36,7 +36,7 @@ export const cocktailQueries = {
     });
   },
   recentCocktails: (options: QueryParams<RequestBody<PagingOptions>>) => {
-    const queryKey = cocktailKeys.recentCocktails(options.body);
+    const queryKey = cocktailKeys.recentCocktails(options.request.body);
     const [url, body] = queryKey;
     const queryFn = constructGetRequest<PagedResult<Cocktail>, PagingOptions>({
       auth: options.auth,
@@ -52,5 +52,7 @@ export const cocktailQueries = {
 
 export function useRecentCocktails(options: PagingOptions) {
   const auth = useAuth0();
-  return useQuery(cocktailQueries.recentCocktails({ auth, body: options }));
+  return useQuery(
+    cocktailQueries.recentCocktails({ auth, request: { body: options } }),
+  );
 }

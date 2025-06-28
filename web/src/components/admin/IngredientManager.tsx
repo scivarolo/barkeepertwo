@@ -16,25 +16,24 @@ import {
 } from "@heroui/react";
 import { Pen, Plus } from "lucide-react";
 import LoadingIndicator from "../utility/LoadingIndicator";
-import { formOptions, useForm } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { IngredientFormValues } from "@/types/Models";
 import { Link } from "@tanstack/react-router";
 
 function IngredientForm() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const saveIngredient = useSaveIngredient(onClose);
-  const formOpts = formOptions<IngredientFormValues>({
+  const form = useForm({
     defaultValues: {
       Id: 0,
       Name: "",
       CreatedById: "",
       IngredientTypeId: undefined,
-    },
+    } as IngredientFormValues,
     onSubmit: async ({ value }) => {
       saveIngredient.mutate(value);
     },
   });
-  const form = useForm(formOpts);
 
   return (
     <>
