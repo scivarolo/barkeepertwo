@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThemeDemoRouteImport } from './routes/theme-demo'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShoppingListIndexRouteImport } from './routes/shopping-list/index'
 import { Route as SettingsIndexRouteImport } from './routes/settings/index'
@@ -19,6 +20,11 @@ import { Route as IngredientsIngredientIdRouteImport } from './routes/ingredient
 import { Route as CocktailsCocktailIdRouteImport } from './routes/cocktails/$cocktailId'
 import { Route as CocktailsCocktailIdEditRouteImport } from './routes/cocktails/$cocktailId.edit'
 
+const ThemeDemoRoute = ThemeDemoRouteImport.update({
+  id: '/theme-demo',
+  path: '/theme-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -67,6 +73,7 @@ const CocktailsCocktailIdEditRoute = CocktailsCocktailIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
@@ -90,6 +98,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin/': typeof AdminIndexRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/theme-demo'
     | '/cocktails/$cocktailId'
     | '/ingredients/$ingredientId'
     | '/admin'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/theme-demo'
     | '/cocktails/$cocktailId'
     | '/ingredients/$ingredientId'
     | '/admin'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/theme-demo'
     | '/cocktails/$cocktailId'
     | '/ingredients/$ingredientId'
     | '/admin/'
@@ -137,6 +149,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ThemeDemoRoute: typeof ThemeDemoRoute
   CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
   IngredientsIngredientIdRoute: typeof IngredientsIngredientIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -148,6 +161,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/theme-demo': {
+      id: '/theme-demo'
+      path: '/theme-demo'
+      fullPath: '/theme-demo'
+      preLoaderRoute: typeof ThemeDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -227,6 +247,7 @@ const CocktailsCocktailIdRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ThemeDemoRoute: ThemeDemoRoute,
   CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
   IngredientsIngredientIdRoute: IngredientsIngredientIdRoute,
   AdminIndexRoute: AdminIndexRoute,

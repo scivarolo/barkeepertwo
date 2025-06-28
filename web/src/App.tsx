@@ -16,7 +16,7 @@ export default function App() {
       <HeroUIProvider
         navigate={(to, options) => router.navigate({ to, ...(options ?? {}) })}
         useHref={(to) => router.buildLocation({ to }).href}>
-        <main id="theme-root" className="bg-background text-foreground">
+        <main id="theme-root">
           <ThemeProvider>
             {isAuthenticated ? <AuthenticatedRoot /> : <UnauthenticatedRoot />}
           </ThemeProvider>

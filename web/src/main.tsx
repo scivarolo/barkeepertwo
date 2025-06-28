@@ -1,6 +1,7 @@
 import { StrictMode, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
+import { HeroUIProvider } from "@heroui/react";
 import {
   NavigateOptions,
   RouterProvider,
@@ -55,13 +56,15 @@ function Barkeeper() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider
-        router={router}
-        context={{
-          auth,
-          queryClient,
-        }}
-      />
+      <HeroUIProvider>
+        <RouterProvider
+          router={router}
+          context={{
+            auth,
+            queryClient,
+          }}
+        />
+      </HeroUIProvider>
     </QueryClientProvider>
   );
 }
