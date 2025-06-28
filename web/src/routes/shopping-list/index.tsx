@@ -1,3 +1,4 @@
+import PageHeader from "@/components/page/PageHeader";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/shopping-list/")({
@@ -5,5 +6,9 @@ export const Route = createFileRoute("/shopping-list/")({
 });
 
 function RouteComponent() {
-  return <div>Hello "/shopping-list/"!</div>;
+  return (
+    <div>
+      <PageHeader title="Shopping List" subtitle="Time to stock up" />
+    </div>
+  );
 }

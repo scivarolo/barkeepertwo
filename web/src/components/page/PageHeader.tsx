@@ -10,12 +10,18 @@ export default function PageHeader({
   toolbar,
 }: PageHeaderProps) {
   return (
-    <div className="mb-6 flex">
+    <div className="mb-8 flex items-start justify-between">
       <div>
-        <h1 className="text-4xl text-primary">{title}</h1>
-        {!!subtitle && <h2 className="text-gray-500">{subtitle}</h2>}
+        <h1 className="text-cocktail-hero font-display from-primary to-secondary bg-gradient-to-r bg-clip-text font-bold text-transparent">
+          {title}
+        </h1>
+        {!!subtitle && (
+          <h2 className="text-recipe-instruction text-foreground/70 font-sans tracking-wide">
+            {subtitle}
+          </h2>
+        )}
       </div>
-      {!!toolbar && <div className="ml-auto">{toolbar}</div>}
+      {!!toolbar && <div className="ml-6 flex-shrink-0">{toolbar}</div>}
     </div>
   );
 }

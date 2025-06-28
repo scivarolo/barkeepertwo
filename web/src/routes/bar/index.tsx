@@ -1,9 +1,14 @@
-import { createFileRoute } from '@tanstack/react-router'
+import PageHeader from "@/components/page/PageHeader";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/bar/')({
+export const Route = createFileRoute("/bar/")({
   component: RouteComponent,
-})
+});
 
 function RouteComponent() {
-  return <div>Hello "/bar/"!</div>
+  return (
+    <div>
+      <PageHeader title="Bar" />
+    </div>
+  );
 }

@@ -27,7 +27,10 @@ import {
   NavbarMenuToggle,
 } from "@heroui/react";
 
-const activeProps = { active: true, className: "text-primary font-semibold" };
+const activeProps = {
+  active: true,
+  className: "text-primary font-semibold font-sans",
+};
 
 const navbarLinks = linkOptions([
   {
@@ -84,7 +87,7 @@ export default function Header() {
       <Navbar
         isBordered
         isMenuOpen={isMenuOpen}
-        className="py-3"
+        className="bg-background/80 py-4 backdrop-blur-md"
         onMenuOpenChange={setIsMenuOpen}>
         <NavbarContent justify="start">
           <NavbarMenuToggle
@@ -92,19 +95,23 @@ export default function Header() {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           />
           <NavbarBrand>
-            <Link to="/" className="text-lg font-semibold">
-              <Martini className="h-6 w-6" />
-              <span className="sr-only">Barkeeper</span>
+            <Link
+              to="/"
+              className="font-display text-cocktail-subtitle tracking-cocktail flex items-center gap-3 font-bold">
+              <Martini className="text-primary h-7 w-7" />
+              <span className="from-primary to-secondary bg-gradient-to-r bg-clip-text text-transparent">
+                Barkeeper
+              </span>
             </Link>
           </NavbarBrand>
         </NavbarContent>
         <NavbarContent
           justify="start"
-          className="hidden cursor-pointer sm:flex">
+          className="hidden cursor-pointer gap-1 sm:flex">
           {navbarLinks.map((props) => (
             <NavLink
               key={props.label}
-              className="hover:text-primary-700"
+              className="hover:text-primary-600 text-recipe-instruction font-sans transition-colors"
               {...props}>
               {props.label}
             </NavLink>
@@ -126,11 +133,11 @@ export default function Header() {
           </NavbarItem>
           <UserMenu />
         </NavbarContent>
-        <NavbarMenu>
+        <NavbarMenu className="gap-2 pt-6">
           {navbarLinks.map((props) => (
             <NavLink
               key={props.label}
-              className="hover:text-primary-700"
+              className="hover:text-primary-600 text-recipe-instruction font-sans transition-colors"
               {...props}>
               {props.label}
             </NavLink>
@@ -154,22 +161,25 @@ function UserMenu() {
       </DropdownTrigger>
       <DropdownMenu aria-label="User Actions">
         <DropdownSection showDivider>
-          <DropdownItem key="greeting">
-            <p>Cheers, {barkeeperUser.data?.DisplayName}!</p>
+          <DropdownItem key="greeting" className="font-sans">
+            <p className="font-display font-medium">
+              Cheers, {barkeeperUser.data?.DisplayName}!
+            </p>
           </DropdownItem>
         </DropdownSection>
         <DropdownSection showDivider>
-          <DropdownItem key="Settings" href="/settings">
+          <DropdownItem key="Settings" href="/settings" className="font-sans">
             Settings
           </DropdownItem>
           {UserHelper.isAdmin(user) ? (
-            <DropdownItem key="Admin" href="/admin">
+            <DropdownItem key="Admin" href="/admin" className="font-sans">
               Admin
             </DropdownItem>
           ) : null}
         </DropdownSection>
         <DropdownItem
           key="logout"
+          className="font-sans"
           onPress={() =>
             logout({ logoutParams: { returnTo: window.location.origin } })
           }>

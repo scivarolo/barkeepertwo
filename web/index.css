@@ -18,7 +18,7 @@
     "Liberation Mono", "Courier New", monospace;
 
   /* Custom typography scale for cocktail app - Enhanced contrast */
-  --font-size-cocktail-hero: 4.5rem;
+  --font-size-cocktail-hero: 3.5rem;
   --line-height-cocktail-hero: 1.05;
   --font-weight-cocktail-hero: 700;
 

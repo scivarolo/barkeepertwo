@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useUser } from "@/data/User";
 import { LoaderCircle } from "lucide-react";
+import PageHeader from "@/components/page/PageHeader";
 
 export const Route = createFileRoute("/")({
   component: Dashboard,
@@ -22,8 +23,10 @@ function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">Dashboard</h1>
-      <>Hey {user.data?.DisplayName ?? "No User Logged in."}</>
+      <PageHeader
+        title="Dashboard"
+        subtitle={`Hey ${user.data?.DisplayName ?? "No User Logged in."}`}
+      />
     </div>
   );
 }
