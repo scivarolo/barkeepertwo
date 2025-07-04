@@ -1,5 +1,6 @@
 import { Cocktail } from "@/types/Models";
-import { Avatar, Card, CardBody, CardHeader } from "@heroui/react";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Link } from "@tanstack/react-router";
 import { Martini } from "lucide-react";
 
@@ -8,13 +9,14 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
     <Link
       to="/cocktails/$cocktailId"
       params={{ cocktailId: cocktail.Id.toString() }}>
-      <Card className="group p-3 transition-all">
-        <CardHeader className="flex items-start gap-4">
-          <Avatar
-            size="lg"
-            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop&crop=center"
-            fallback={<Martini className="h-6 w-6" />}
-          />
+      <Card className="group transition-all">
+        <CardHeader className="flex items-center gap-4">
+          <Avatar className="h-16 w-16">
+            <AvatarImage src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop&crop=center" />
+            <AvatarFallback>
+              <Martini size="16" />
+            </AvatarFallback>
+          </Avatar>
           <div>
             <h3 className="font-display text-primary group-hover:text-primary-600 text-2xl font-bold transition-all">
               {cocktail.Name}
@@ -24,9 +26,9 @@ export default function CocktailCard({ cocktail }: { cocktail: Cocktail }) {
             </p>
           </div>
         </CardHeader>
-        <CardBody>
+        <CardContent>
           <p>{cocktail.Instructions}</p>
-        </CardBody>
+        </CardContent>
       </Card>
     </Link>
   );

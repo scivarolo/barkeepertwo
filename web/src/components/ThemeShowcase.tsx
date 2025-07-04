@@ -1,28 +1,25 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Switch,
-  Chip,
-  Avatar,
-  Progress,
-  Input,
-  Spacer,
-} from "@heroui/react";
-import { Sun, Moon, Wine, Coffee, Martini, Star } from "lucide-react";
+import { Sun, Moon, Martini, Star } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 export function ThemeShowcase() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <div className={`min-h-screen p-6 transition-colors duration-200`}>
+    <div className="min-h-screen p-6 transition-colors duration-200">
       <div className="mx-auto max-w-6xl space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-cocktail-hero text-foreground tracking-cocktail mb-2 font-serif">
+            <h1 className="text-cocktail-hero text-foreground tracking-cocktail font-display mb-2">
               🍸 Barkeeper Theme
             </h1>
             <p className="text-recipe-instruction text-foreground/70 tracking-elegant font-sans">
@@ -33,12 +30,10 @@ export function ThemeShowcase() {
           <div className="flex items-center gap-3">
             <Sun className="h-4 w-4" />
             <Switch
-              isSelected={theme === "dark"}
-              onValueChange={() =>
+              checked={theme === "dark"}
+              onCheckedChange={() =>
                 setTheme(theme === "dark" ? "light" : "dark")
               }
-              color="primary"
-              size="lg"
             />
             <Moon className="h-4 w-4" />
           </div>
@@ -47,617 +42,271 @@ export function ThemeShowcase() {
         {/* Color Palette */}
         <Card>
           <CardHeader>
-            <div className="flex flex-col">
-              <h2 className="text-cocktail-title font-serif">Color Palette</h2>
-              <p className="text-recipe-instruction text-foreground/70 font-sans">
-                Complete color system with all shades and their corresponding
-                CSS classes
-              </p>
-            </div>
+            <CardTitle className="text-cocktail-title font-display">
+              Color Palette
+            </CardTitle>
+            <p className="text-recipe-instruction text-muted-foreground font-sans">
+              Complete color system with all shades and their corresponding CSS
+              classes
+            </p>
           </CardHeader>
-          <CardBody className="space-y-8">
+          <CardContent className="space-y-8">
             {/* Primary Colors */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
+              <h3 className="text-cocktail-subtitle font-display">
                 Primary (Amber/Gold)
               </h3>
-              <p className="text-recipe-instruction text-foreground/70 mb-4 font-sans">
+              <p className="text-recipe-instruction text-muted-foreground mb-4 font-sans">
                 Rich amber like aged whiskey - perfect for main actions and
                 branding
               </p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-10">
-                <div className="space-y-1">
-                  <div className="bg-primary-50 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">50</span>
+                {[
+                  { shade: "50", bg: "bg-primary/10", hex: "#FFFBEB" },
+                  { shade: "100", bg: "bg-primary/20", hex: "#FEF3C7" },
+                  { shade: "200", bg: "bg-primary/30", hex: "#FDE68A" },
+                  { shade: "300", bg: "bg-primary/40", hex: "#FCD34D" },
+                  { shade: "400", bg: "bg-primary/60", hex: "#FBBF24" },
+                  {
+                    shade: "500",
+                    bg: "bg-primary",
+                    hex: "#D97706",
+                    isMain: true,
+                  },
+                  { shade: "600", bg: "bg-primary", hex: "#B45309" },
+                  { shade: "700", bg: "bg-primary", hex: "#92400E" },
+                  { shade: "800", bg: "bg-primary", hex: "#78350F" },
+                  { shade: "900", bg: "bg-primary", hex: "#5F1C0B" },
+                ].map((color) => (
+                  <div key={color.shade} className="space-y-1">
+                    <div
+                      className={`${color.bg} flex h-16 items-end rounded-lg p-2 ${color.isMain ? "ring-primary ring-2" : ""}`}>
+                      <span
+                        className={`font-mono text-xs ${parseInt(color.shade) >= 400 ? "text-white" : "text-black"} ${color.isMain ? "font-bold" : ""}`}>
+                        {color.shade}
+                      </span>
+                    </div>
+                    <code
+                      className={`block font-mono text-xs ${color.isMain ? "font-bold" : ""}`}>
+                      {color.isMain
+                        ? "bg-primary"
+                        : `bg-primary-${color.shade}`}
+                    </code>
+                    <code className="text-muted-foreground block font-mono text-xs">
+                      {color.hex}
+                    </code>
                   </div>
-                  <code className="block font-mono text-xs">bg-primary-50</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FFFBEB
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-100 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">100</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-100
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FEF3C7
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-200 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">200</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-200
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FDE68A
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-300 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">300</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-300
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FCD34D
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-400 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">400</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-400
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FBBF24
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-500 ring-primary flex h-16 items-end rounded-lg p-2 ring-2">
-                    <span className="font-mono text-xs font-bold text-white">
-                      500
-                    </span>
-                  </div>
-                  <code className="block font-mono text-xs font-bold">
-                    bg-primary
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #D97706
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-600 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">600</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-600
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #B45309
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-700 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">700</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-700
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #92400E
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-800 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">800</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-800
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #78350F
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-primary-900 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">900</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-primary-900
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #5F1C0B
-                  </code>
-                </div>
+                ))}
               </div>
             </div>
 
+            <Separator />
+
             {/* Secondary Colors */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
+              <h3 className="text-cocktail-subtitle font-display">
                 Secondary (Emerald)
               </h3>
-              <p className="text-recipe-instruction text-foreground/70 mb-4 font-sans">
+              <p className="text-recipe-instruction text-muted-foreground mb-4 font-sans">
                 Deep emerald like absinthe/mint - perfect for accent actions and
                 highlights
               </p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-10">
-                <div className="space-y-1">
-                  <div className="bg-secondary-50 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">50</span>
+                {[
+                  { shade: "50", bg: "bg-secondary/10", hex: "#ECFDF5" },
+                  { shade: "100", bg: "bg-secondary/20", hex: "#D1FAE5" },
+                  { shade: "200", bg: "bg-secondary/30", hex: "#A7F3D0" },
+                  { shade: "300", bg: "bg-secondary/40", hex: "#6EE7B7" },
+                  { shade: "400", bg: "bg-secondary/60", hex: "#34D399" },
+                  {
+                    shade: "500",
+                    bg: "bg-secondary",
+                    hex: "#059669",
+                    isMain: true,
+                  },
+                  { shade: "600", bg: "bg-secondary", hex: "#047857" },
+                  { shade: "700", bg: "bg-secondary", hex: "#065F46" },
+                  { shade: "800", bg: "bg-secondary", hex: "#064E3B" },
+                  { shade: "900", bg: "bg-secondary", hex: "#022C22" },
+                ].map((color) => (
+                  <div key={color.shade} className="space-y-1">
+                    <div
+                      className={`${color.bg} flex h-16 items-end rounded-lg p-2 ${color.isMain ? "ring-secondary ring-2" : ""}`}>
+                      <span
+                        className={`font-mono text-xs ${parseInt(color.shade) >= 400 ? "text-white" : "text-black"} ${color.isMain ? "font-bold" : ""}`}>
+                        {color.shade}
+                      </span>
+                    </div>
+                    <code
+                      className={`block font-mono text-xs ${color.isMain ? "font-bold" : ""}`}>
+                      {color.isMain
+                        ? "bg-secondary"
+                        : `bg-secondary-${color.shade}`}
+                    </code>
+                    <code className="text-muted-foreground block font-mono text-xs">
+                      {color.hex}
+                    </code>
                   </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-50
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #ECFDF5
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-100 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">100</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-100
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #D1FAE5
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-200 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">200</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-200
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #A7F3D0
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-300 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">300</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-300
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #6EE7B7
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-400 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">400</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-400
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #34D399
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-500 ring-secondary flex h-16 items-end rounded-lg p-2 ring-2">
-                    <span className="font-mono text-xs font-bold text-white">
-                      500
-                    </span>
-                  </div>
-                  <code className="block font-mono text-xs font-bold">
-                    bg-secondary
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #059669
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-600 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">600</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-600
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #047857
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-700 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">700</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-700
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #065F46
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-800 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">800</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-800
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #064E3B
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-secondary-900 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">900</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-secondary-900
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #022C22
-                  </code>
-                </div>
+                ))}
               </div>
             </div>
+
+            <Separator />
 
             {/* Success Colors */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
-                Success (Lime)
+              <h3 className="text-cocktail-subtitle font-display">
+                Success (Lime Green)
               </h3>
-              <p className="text-recipe-instruction text-foreground/70 mb-4 font-sans">
-                Fresh lime green - for positive actions and confirmations
+              <p className="text-recipe-instruction text-muted-foreground mb-4 font-sans">
+                Fresh lime green - perfect for positive actions and success
+                states
               </p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-10">
-                <div className="space-y-1">
-                  <div className="bg-success-50 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">50</span>
+                {[
+                  { shade: "50", bg: "bg-green-50", hex: "#F0FDF4" },
+                  { shade: "100", bg: "bg-green-100", hex: "#DCFCE7" },
+                  { shade: "200", bg: "bg-green-200", hex: "#BBF7D0" },
+                  { shade: "300", bg: "bg-green-300", hex: "#86EFAC" },
+                  { shade: "400", bg: "bg-green-400", hex: "#4ADE80" },
+                  {
+                    shade: "500",
+                    bg: "bg-green-500",
+                    hex: "#22C55E",
+                    isMain: true,
+                  },
+                  { shade: "600", bg: "bg-green-600", hex: "#16A34A" },
+                  { shade: "700", bg: "bg-green-700", hex: "#15803D" },
+                  { shade: "800", bg: "bg-green-800", hex: "#166534" },
+                  { shade: "900", bg: "bg-green-900", hex: "#14532D" },
+                ].map((color) => (
+                  <div key={color.shade} className="space-y-1">
+                    <div
+                      className={`${color.bg} flex h-16 items-end rounded-lg p-2 ${color.isMain ? "ring-2 ring-green-500" : ""}`}>
+                      <span
+                        className={`font-mono text-xs ${parseInt(color.shade) >= 400 ? "text-white" : "text-black"} ${color.isMain ? "font-bold" : ""}`}>
+                        {color.shade}
+                      </span>
+                    </div>
+                    <code
+                      className={`block font-mono text-xs ${color.isMain ? "font-bold" : ""}`}>
+                      {color.isMain
+                        ? "bg-green-500"
+                        : `bg-green-${color.shade}`}
+                    </code>
+                    <code className="text-muted-foreground block font-mono text-xs">
+                      {color.hex}
+                    </code>
                   </div>
-                  <code className="block font-mono text-xs">bg-success-50</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #F0FDF4
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-100 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">100</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-100
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #DCFCE7
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-200 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">200</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-200
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #BBF7D0
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-300 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">300</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-300
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #86EFAC
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-400 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">400</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-400
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #4ADE80
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-500 ring-success flex h-16 items-end rounded-lg p-2 ring-2">
-                    <span className="font-mono text-xs font-bold text-white">
-                      500
-                    </span>
-                  </div>
-                  <code className="block font-mono text-xs font-bold">
-                    bg-success
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #22C55E
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-600 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">600</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-600
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #16A34A
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-700 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">700</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-700
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #15803D
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-800 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">800</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-800
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #166534
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-success-900 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">900</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-success-900
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #14532D
-                  </code>
-                </div>
+                ))}
               </div>
             </div>
+
+            <Separator />
 
             {/* Warning Colors */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
-                Warning (Aperol)
+              <h3 className="text-cocktail-subtitle font-display">
+                Warning (Orange)
               </h3>
-              <p className="text-recipe-instruction text-foreground/70 mb-4 font-sans">
-                Sophisticated orange like Aperol - for warnings and moderate
+              <p className="text-recipe-instruction text-muted-foreground mb-4 font-sans">
+                Sophisticated orange like Aperol - perfect for warnings and
                 attention
               </p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-10">
-                <div className="space-y-1">
-                  <div className="bg-warning-50 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">50</span>
+                {[
+                  { shade: "50", bg: "bg-orange-50", hex: "#FFF7ED" },
+                  { shade: "100", bg: "bg-orange-100", hex: "#FFEDD5" },
+                  { shade: "200", bg: "bg-orange-200", hex: "#FED7AA" },
+                  { shade: "300", bg: "bg-orange-300", hex: "#FDBA74" },
+                  { shade: "400", bg: "bg-orange-400", hex: "#FB923C" },
+                  {
+                    shade: "500",
+                    bg: "bg-orange-500",
+                    hex: "#F97316",
+                    isMain: true,
+                  },
+                  { shade: "600", bg: "bg-orange-600", hex: "#EA580C" },
+                  { shade: "700", bg: "bg-orange-700", hex: "#C2410C" },
+                  { shade: "800", bg: "bg-orange-800", hex: "#9A3412" },
+                  { shade: "900", bg: "bg-orange-900", hex: "#7C2D12" },
+                ].map((color) => (
+                  <div key={color.shade} className="space-y-1">
+                    <div
+                      className={`${color.bg} flex h-16 items-end rounded-lg p-2 ${color.isMain ? "ring-2 ring-orange-500" : ""}`}>
+                      <span
+                        className={`font-mono text-xs ${parseInt(color.shade) >= 400 ? "text-white" : "text-black"} ${color.isMain ? "font-bold" : ""}`}>
+                        {color.shade}
+                      </span>
+                    </div>
+                    <code
+                      className={`block font-mono text-xs ${color.isMain ? "font-bold" : ""}`}>
+                      {color.isMain
+                        ? "bg-orange-500"
+                        : `bg-orange-${color.shade}`}
+                    </code>
+                    <code className="text-muted-foreground block font-mono text-xs">
+                      {color.hex}
+                    </code>
                   </div>
-                  <code className="block font-mono text-xs">bg-warning-50</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FFF7ED
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-100 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">100</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-100
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FFEDD5
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-200 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">200</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-200
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FED7AA
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-300 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">300</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-300
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FDBA74
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-400 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">400</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-400
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FB923C
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-500 ring-warning flex h-16 items-end rounded-lg p-2 ring-2">
-                    <span className="font-mono text-xs font-bold text-white">
-                      500
-                    </span>
-                  </div>
-                  <code className="block font-mono text-xs font-bold">
-                    bg-warning
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #F97316
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-600 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">600</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-600
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #EA580C
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-700 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">700</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-700
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #C2410C
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-800 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">800</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-800
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #9A3412
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-warning-900 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">900</span>
-                  </div>
-                  <code className="block font-mono text-xs">
-                    bg-warning-900
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #7C2D12
-                  </code>
-                </div>
+                ))}
               </div>
             </div>
+
+            <Separator />
 
             {/* Danger Colors */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
-                Danger (Wine)
+              <h3 className="text-cocktail-subtitle font-display">
+                Danger (Crimson)
               </h3>
-              <p className="text-recipe-instruction text-foreground/70 mb-4 font-sans">
-                Deep crimson like red wine - for errors and destructive actions
+              <p className="text-recipe-instruction text-muted-foreground mb-4 font-sans">
+                Deep crimson like red wine - perfect for destructive actions and
+                errors
               </p>
               <div className="grid grid-cols-2 gap-2 md:grid-cols-5 lg:grid-cols-10">
-                <div className="space-y-1">
-                  <div className="bg-danger-50 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">50</span>
+                {[
+                  { shade: "50", bg: "bg-red-50", hex: "#FEF2F2" },
+                  { shade: "100", bg: "bg-red-100", hex: "#FEE2E2" },
+                  { shade: "200", bg: "bg-red-200", hex: "#FECACA" },
+                  { shade: "300", bg: "bg-red-300", hex: "#FCA5A5" },
+                  { shade: "400", bg: "bg-red-400", hex: "#F87171" },
+                  {
+                    shade: "500",
+                    bg: "bg-red-500",
+                    hex: "#DC2626",
+                    isMain: true,
+                  },
+                  { shade: "600", bg: "bg-red-600", hex: "#B91C1C" },
+                  { shade: "700", bg: "bg-red-700", hex: "#991B1B" },
+                  { shade: "800", bg: "bg-red-800", hex: "#7F1D1D" },
+                  { shade: "900", bg: "bg-red-900", hex: "#450A0A" },
+                ].map((color) => (
+                  <div key={color.shade} className="space-y-1">
+                    <div
+                      className={`${color.bg} flex h-16 items-end rounded-lg p-2 ${color.isMain ? "ring-2 ring-red-500" : ""}`}>
+                      <span
+                        className={`font-mono text-xs ${parseInt(color.shade) >= 400 ? "text-white" : "text-black"} ${color.isMain ? "font-bold" : ""}`}>
+                        {color.shade}
+                      </span>
+                    </div>
+                    <code
+                      className={`block font-mono text-xs ${color.isMain ? "font-bold" : ""}`}>
+                      {color.isMain ? "bg-red-500" : `bg-red-${color.shade}`}
+                    </code>
+                    <code className="text-muted-foreground block font-mono text-xs">
+                      {color.hex}
+                    </code>
                   </div>
-                  <code className="block font-mono text-xs">bg-danger-50</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FEF2F2
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-100 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">100</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-100</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FEE2E2
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-200 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">200</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-200</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FECACA
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-300 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs">300</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-300</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #FCA5A5
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-400 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">400</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-400</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #F87171
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-500 ring-danger flex h-16 items-end rounded-lg p-2 ring-2">
-                    <span className="font-mono text-xs font-bold text-white">
-                      500
-                    </span>
-                  </div>
-                  <code className="block font-mono text-xs font-bold">
-                    bg-danger
-                  </code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #DC2626
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-600 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">600</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-600</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #B91C1C
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-700 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">700</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-700</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #991B1B
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-800 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">800</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-800</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #7F1D1D
-                  </code>
-                </div>
-                <div className="space-y-1">
-                  <div className="bg-danger-900 flex h-16 items-end rounded-lg p-2">
-                    <span className="font-mono text-xs text-white">900</span>
-                  </div>
-                  <code className="block font-mono text-xs">bg-danger-900</code>
-                  <code className="text-foreground/50 block font-mono text-xs">
-                    #450A0A
-                  </code>
-                </div>
+                ))}
               </div>
             </div>
 
+            <Separator />
+
             {/* Usage Examples */}
             <div className="space-y-4">
-              <h3 className="text-cocktail-subtitle font-serif">
+              <h3 className="text-cocktail-subtitle font-display">
                 Usage Examples
               </h3>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -670,16 +319,22 @@ export function ThemeShowcase() {
                       <code>bg-primary</code> - Main amber color
                     </div>
                     <div>
-                      <code>bg-primary-50</code> - Lightest amber tint
-                    </div>
-                    <div>
-                      <code>bg-primary-900</code> - Darkest amber shade
+                      <code>bg-primary/10</code> - Light amber tint
                     </div>
                     <div>
                       <code>bg-secondary</code> - Main emerald color
                     </div>
                     <div>
-                      <code>bg-success</code> - Success lime color
+                      <code>bg-green-500</code> - Success color
+                    </div>
+                    <div>
+                      <code>bg-orange-500</code> - Warning color
+                    </div>
+                    <div>
+                      <code>bg-red-500</code> - Danger color
+                    </div>
+                    <div>
+                      <code>bg-destructive</code> - Alias for danger
                     </div>
                   </div>
                 </div>
@@ -695,119 +350,103 @@ export function ThemeShowcase() {
                       <code>text-secondary</code> - Secondary text color
                     </div>
                     <div>
-                      <code>text-success</code> - Success text color
+                      <code>text-green-500</code> - Success text
                     </div>
                     <div>
-                      <code>text-warning</code> - Warning text color
+                      <code>text-orange-500</code> - Warning text
                     </div>
                     <div>
-                      <code>text-danger</code> - Danger text color
+                      <code>text-red-500</code> - Danger text
+                    </div>
+                    <div>
+                      <code>text-muted-foreground</code> - Muted text
+                    </div>
+                    <div>
+                      <code>text-destructive</code> - Danger text alias
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
         {/* UI Components Demo */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {/* Buttons & Chips */}
+          {/* Buttons & Badges */}
           <Card>
             <CardHeader>
-              <h3 className="text-cocktail-subtitle font-serif">
+              <CardTitle className="text-cocktail-subtitle font-display">
                 Buttons & Actions
-              </h3>
+              </CardTitle>
             </CardHeader>
-            <CardBody className="space-y-4">
+            <CardContent className="space-y-4">
               <div className="flex flex-wrap gap-3">
-                <Button
-                  color="primary"
-                  variant="solid"
-                  className="font-sans font-medium">
+                <Button className="font-sans font-medium">
                   Order Cocktail
                 </Button>
-                <Button
-                  color="secondary"
-                  variant="solid"
-                  className="font-sans font-medium">
+                <Button variant="secondary" className="font-sans font-medium">
                   Add to Favorites
                 </Button>
-                <Button
-                  color="primary"
-                  variant="bordered"
-                  className="font-sans font-medium">
+                <Button variant="outline" className="font-sans font-medium">
                   View Recipe
                 </Button>
-                <Button
-                  color="default"
-                  variant="ghost"
-                  className="font-sans font-medium">
+                <Button variant="ghost" className="font-sans font-medium">
                   Cancel
                 </Button>
               </div>
 
               <div className="flex flex-wrap gap-2">
-                <Chip
-                  color="primary"
-                  variant="solid"
-                  startContent={<Wine className="h-3 w-3" />}
-                  className="font-sans font-medium">
-                  Whiskey
-                </Chip>
-                <Chip
-                  color="secondary"
-                  variant="solid"
-                  startContent={<Coffee className="h-3 w-3" />}
-                  className="font-sans font-medium">
+                <Badge className="font-sans font-medium">Whiskey</Badge>
+                <Badge variant="secondary" className="font-sans font-medium">
                   Espresso
-                </Chip>
-                <Chip
-                  color="success"
-                  variant="flat"
-                  startContent={<Martini className="h-3 w-3" />}
-                  className="font-sans font-medium">
+                </Badge>
+                <Badge variant="outline" className="font-sans font-medium">
                   Gin
-                </Chip>
-                <Chip
-                  color="warning"
-                  variant="flat"
-                  className="font-sans font-medium">
-                  Sweet
-                </Chip>
+                </Badge>
+                <Badge variant="destructive" className="font-sans font-medium">
+                  Strong
+                </Badge>
+                <Badge className="bg-green-500 font-sans font-medium hover:bg-green-600">
+                  Fresh
+                </Badge>
+                <Badge className="bg-orange-500 font-sans font-medium hover:bg-orange-600">
+                  Caution
+                </Badge>
               </div>
-            </CardBody>
+            </CardContent>
           </Card>
 
-          {/* Cards & Content */}
+          {/* Cocktail Card Example */}
           <Card>
             <CardHeader>
-              <h3 className="text-cocktail-subtitle font-serif">
+              <CardTitle className="text-cocktail-subtitle font-display">
                 Cocktail Card Example
-              </h3>
+              </CardTitle>
             </CardHeader>
-            <CardBody>
-              <Card className="w-full">
-                <CardBody className="p-6">
+            <CardContent>
+              <Card className="shadow-subtle-md">
+                <CardContent>
                   <div className="flex items-start gap-4">
-                    <Avatar
-                      size="lg"
-                      src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop&crop=center"
-                      fallback={<Martini className="h-6 w-6" />}
-                    />
+                    <Avatar className="h-16 w-16">
+                      <AvatarImage src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop&crop=center" />
+                      <AvatarFallback>
+                        <Martini className="h-6 w-6" />
+                      </AvatarFallback>
+                    </Avatar>
                     <div className="flex-1">
                       <div className="mb-2 flex items-center gap-2">
-                        <h4 className="text-cocktail-subtitle tracking-cocktail font-serif">
+                        <h4 className="text-cocktail-subtitle tracking-cocktail font-display">
                           Old Fashioned
                         </h4>
                         <div className="flex items-center gap-1">
-                          <Star className="fill-warning text-warning h-4 w-4" />
+                          <Star className="fill-primary text-primary h-4 w-4" />
                           <span className="text-measurement font-mono">
                             4.8
                           </span>
                         </div>
                       </div>
-                      <p className="text-foreground/70 text-recipe-instruction mb-3 font-sans">
+                      <p className="text-muted-foreground text-recipe-instruction mb-3 font-sans">
                         A classic whiskey cocktail with sugar, bitters, and a
                         twist of citrus.
                       </p>
@@ -816,91 +455,84 @@ export function ThemeShowcase() {
                           <span className="text-recipe-ingredient font-sans">
                             Difficulty
                           </span>
-                          <span className="text-foreground/70 text-recipe-ingredient font-sans">
+                          <span className="text-muted-foreground text-recipe-ingredient font-sans">
                             Easy
                           </span>
                         </div>
-                        <Progress
-                          value={30}
-                          color="success"
-                          size="sm"
-                          className="w-full"
-                        />
+                        <Progress value={30} className="w-full" />
                       </div>
                     </div>
                   </div>
-                </CardBody>
+                </CardContent>
               </Card>
-            </CardBody>
+            </CardContent>
           </Card>
         </div>
 
         {/* Form Elements */}
         <Card>
           <CardHeader>
-            <h3 className="text-cocktail-subtitle font-serif">Form Elements</h3>
+            <CardTitle className="text-cocktail-subtitle font-display">
+              Form Elements
+            </CardTitle>
           </CardHeader>
-          <CardBody className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-4">
-              <Input
-                label="Search cocktails"
-                placeholder="Type a cocktail name..."
-                variant="bordered"
-                color="primary"
-                classNames={{
-                  label: "font-sans text-recipe-ingredient",
-                  input: "font-sans text-recipe-instruction",
-                }}
-              />
-              <Input
-                label="Ingredients"
-                placeholder="e.g., whiskey, sugar, bitters"
-                variant="flat"
-                color="secondary"
-                classNames={{
-                  label: "font-sans text-recipe-ingredient",
-                  input: "font-sans text-recipe-instruction",
-                }}
-              />
+              <div className="space-y-2">
+                <Label
+                  htmlFor="search"
+                  className="text-recipe-ingredient font-sans">
+                  Search cocktails
+                </Label>
+                <Input
+                  id="search"
+                  placeholder="Type a cocktail name..."
+                  className="text-recipe-instruction font-sans"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label
+                  htmlFor="ingredients"
+                  className="text-recipe-ingredient font-sans">
+                  Ingredients
+                </Label>
+                <Input
+                  id="ingredients"
+                  placeholder="e.g., whiskey, sugar, bitters"
+                  className="text-recipe-instruction font-sans"
+                />
+              </div>
             </div>
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-recipe-ingredient font-sans font-medium">
-                  Alcohol content
-                </span>
-                <span className="text-foreground/70 text-measurement font-mono">
-                  40%
-                </span>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-recipe-ingredient font-sans font-medium">
+                    Alcohol content
+                  </span>
+                  <span className="text-muted-foreground text-measurement font-mono">
+                    40%
+                  </span>
+                </div>
+                <Progress value={40} className="w-full" />
               </div>
-              <Progress
-                value={40}
-                color="primary"
-                size="md"
-                className="w-full"
-              />
-              <div className="flex items-center justify-between">
-                <span className="text-recipe-ingredient font-sans font-medium">
-                  Sweetness level
-                </span>
-                <span className="text-foreground/70 text-measurement font-mono">
-                  60%
-                </span>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-recipe-ingredient font-sans font-medium">
+                    Sweetness level
+                  </span>
+                  <span className="text-muted-foreground text-measurement font-mono">
+                    60%
+                  </span>
+                </div>
+                <Progress value={60} className="w-full" />
               </div>
-              <Progress
-                value={60}
-                color="warning"
-                size="md"
-                className="w-full"
-              />
             </div>
-          </CardBody>
+          </CardContent>
         </Card>
 
-        <Spacer y={4} />
-
         {/* Footer */}
-        <div className="text-foreground/50 text-center">
-          <p className="tracking-elegant font-serif">
+        <div className="text-muted-foreground text-center">
+          <p className="tracking-elegant font-display">
             🥃 Crafted with sophistication • Modern cocktail experience
           </p>
         </div>

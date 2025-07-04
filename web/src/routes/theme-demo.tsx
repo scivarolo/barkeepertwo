@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ThemeShowcase } from "@/components/ThemeShowcase";
 import { TypographyShowcase } from "@/components/TypographyShowcase";
-import { Tabs, Tab } from "@heroui/react";
+import { Tabs, TabsList, TabsContent, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/theme-demo")({
   component: ThemeDemo,
@@ -10,23 +10,21 @@ export const Route = createFileRoute("/theme-demo")({
 function ThemeDemo() {
   return (
     <div className="p-6">
-      <Tabs
-        aria-label="Theme demos"
-        color="primary"
-        variant="underlined"
-        classNames={{
-          tabList:
-            "gap-6 w-full relative rounded-none p-0 border-b border-divider",
-          cursor: "w-full bg-primary",
-          tab: "max-w-fit px-0 h-12",
-          tabContent: "group-data-[selected=true]:text-primary",
-        }}>
-        <Tab key="colors" title="Colors & Components">
+      <Tabs defaultValue="colors" className="mx-auto">
+        <TabsList className="mx-auto">
+          <TabsTrigger value="colors" className="text-lg">
+            Colors & Components
+          </TabsTrigger>
+          <TabsTrigger value="typography" className="text-lg">
+            Typography
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="colors">
           <ThemeShowcase />
-        </Tab>
-        <Tab key="typography" title="Typography">
+        </TabsContent>
+        <TabsContent value="typography">
           <TypographyShowcase />
-        </Tab>
+        </TabsContent>
       </Tabs>
     </div>
   );
