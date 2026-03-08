@@ -2,27 +2,28 @@ import { CircleUser, Martini, Menu, X } from "lucide-react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import ThemeToggle from "./ThemeToggle";
-import {
-  createLink,
-  Link,
-  LinkComponent,
-  linkOptions,
-} from "@tanstack/react-router";
-import { forwardRef, useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { useUser } from "@/data/User";
 import { UserHelper } from "@/lib/user";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+} from "@/components/ui/navigation-menu";
 
-const navbarLinks = linkOptions([
+const navbarLinks = [
   {
     to: "/",
     label: "Dashboard",
@@ -40,36 +41,7 @@ const navbarLinks = linkOptions([
     to: "/shopping-list",
     label: "Shopping List",
   },
-]);
-
-interface NavLinkProps {
-  to: string;
-  label: string;
-  activeOptions?: any;
-  children?: React.ReactNode;
-}
-
-const NavLinkComponent = forwardRef<HTMLAnchorElement, NavLinkProps>(
-  ({ to, label, ...props }, ref) => {
-    return (
-      <Link
-        to={to}
-        ref={ref}
-        className="hover:text-primary-600 text-recipe-instruction font-sans transition-colors data-[status='active']:text-primary data-[status='active']:font-semibold"
-        {...props}>
-        {label}
-      </Link>
-    );
-  },
-);
-
-NavLinkComponent.displayName = "NavLinkComponent";
-
-const CreatedNavLink = createLink(NavLinkComponent);
-
-const NavLink: LinkComponent<typeof NavLinkComponent> = (props) => {
-  return <CreatedNavLink {...props} />;
-};
+];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -88,16 +60,20 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden cursor-pointer gap-1 sm:flex">
-            {navbarLinks.map((props) => (
-              <NavLink
-                key={props.label}
-                {...props}
-              >
-                {props.label}
-              </NavLink>
-            ))}
-          </nav>
+          <NavigationMenu className="hidden sm:flex">
+            <NavigationMenuList>
+              {navbarLinks.map((props) => (
+                <NavigationMenuItem key={props.label}>
+                  <Link
+                    to={props.to}
+                    activeOptions={props.activeOptions}
+                    className="inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-all outline-none hover:bg-muted focus:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1 hover:text-primary-600 text-recipe-instruction font-sans transition-colors data-[status='active']:text-primary data-[status='active']:font-semibold">
+                    {props.label}
+                  </Link>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
@@ -125,11 +101,14 @@ export default function Header() {
           <DialogContent className="top-0 translate-y-0 border-none p-0 sm:hidden">
             <nav className="flex flex-col gap-2 pt-6">
               {navbarLinks.map((props) => (
-                <div key={props.label} onClick={() => setIsMenuOpen(false)}>
-                  <NavLink {...props}>
-                    {props.label}
-                  </NavLink>
-                </div>
+                <Link
+                  key={props.label}
+                  to={props.to}
+                  activeOptions={props.activeOptions}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="px-4 py-2 hover:text-primary-600 text-recipe-instruction font-sans transition-colors data-[status='active']:text-primary data-[status='active']:font-semibold">
+                  {props.label}
+                </Link>
               ))}
             </nav>
           </DialogContent>
@@ -144,27 +123,29 @@ function UserMenu() {
   const barkeeperUser = useUser(user?.sub ?? "");
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger>
         <Button variant="ghost" size="icon" className="rounded-full">
           <CircleUser className="h-5 w-5" />
           <span className="sr-only">Toggle user menu</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel className="font-display font-medium">
-          Cheers, {barkeeperUser.data?.DisplayName}!
-        </DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel className="font-display font-medium">
+            Cheers, {barkeeperUser.data?.DisplayName}!
+          </DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link to="/settings">Settings</Link>
+        <DropdownMenuItem render={<Link to="/settings" />}>
+          Settings
         </DropdownMenuItem>
         {UserHelper.isAdmin(user) ? (
           <>
-            <DropdownMenuItem asChild>
-              <Link to="/admin">Admin</Link>
+            <DropdownMenuItem render={<Link to="/admin" />}>
+              Admin
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/theme-demo">Theme Demo</Link>
+            <DropdownMenuItem render={<Link to="/theme-demo" />}>
+              Theme Demo
             </DropdownMenuItem>
           </>
         ) : null}

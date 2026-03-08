@@ -15,15 +15,15 @@ export const userKeys = {
 
 export const userQueries = {
   user: (options: QueryParams<{ id: string }>) => {
-    const queryKey = userKeys.get(options.id);
+    const queryKey = userKeys.get(options.request.id);
     const queryFn = useGetRequest<User, Pick<User, "Id">>(...queryKey);
-    return queryOptions({ queryKey, queryFn, enabled: !!options.id });
+    return queryOptions({ queryKey, queryFn, enabled: !!options.request.id });
   },
 };
 
 export function useUser(id: string) {
   const auth = useAuth0();
-  return useQuery(userQueries.user({ auth, id }));
+  return useQuery(userQueries.user({ auth, request: { id } }));
 }
 
 export function useUpdateUser() {

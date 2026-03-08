@@ -13,7 +13,7 @@ export const Route = createFileRoute("/cocktails/")({
 });
 
 function RouteComponent() {
-  const [currentRequest, setCurrentRequest] = useState<PagingOptions>({
+  const [currentRequest] = useState<PagingOptions>({
     Page: 0,
     PageSize: 10,
     SortDirection: SortDirection.Descending,

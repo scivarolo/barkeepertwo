@@ -2,9 +2,7 @@ import { StrictMode, useMemo } from "react";
 import { createRoot } from "react-dom/client";
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react";
 import {
-  NavigateOptions,
   RouterProvider,
-  ToOptions,
   createRouter,
 } from "@tanstack/react-router";
 
@@ -31,13 +29,6 @@ function createBarkeeperRouter(auth: any) {
 declare module "@tanstack/react-router" {
   interface Register {
     router: ReturnType<typeof createBarkeeperRouter>;
-  }
-}
-
-declare module "@react-types/shared" {
-  interface RouterConfig {
-    href: ToOptions["to"];
-    routerOptions: Omit<NavigateOptions, keyof ToOptions>;
   }
 }
 

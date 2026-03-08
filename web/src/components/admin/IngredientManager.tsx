@@ -79,7 +79,7 @@ function IngredientForm() {
               <Button
                 variant="default"
                 type="submit"
-                isLoading={saveIngredient.isPending}>
+                disabled={saveIngredient.isPending}>
                 Save
               </Button>
             </DialogFooter>

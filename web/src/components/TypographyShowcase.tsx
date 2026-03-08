@@ -66,11 +66,11 @@ export function TypographyShowcase() {
 
               <div className="space-y-3">
                 <h3 className="text-foreground font-display text-lg font-semibold">
-                  Display (Space Grotesk)
+                  Display (Merriweather)
                 </h3>
                 <div className="space-y-2">
                   <p className="text-muted-foreground font-display text-sm">
-                    Modern geometric headings
+                    Elegant serif headings
                   </p>
                   <p className="font-display text-base">
                     Contemporary cocktail names

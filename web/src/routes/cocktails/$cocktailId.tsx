@@ -3,7 +3,7 @@ import { cocktailQueries } from "@/data/Cocktail";
 import { Card, CardContent } from "@/components/ui/card";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { Sparkles, Star, StarIcon } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/cocktails/$cocktailId")({
   component: RouteComponent,

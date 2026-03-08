@@ -23,7 +23,7 @@ export default function Login() {
           </div>
         </CardHeader>
         <CardFooter>
-          <Button onClick={() => loginWithRedirect()} color="primary">
+          <Button onClick={() => loginWithRedirect()}>
             {isLoading ? (
               <>
                 <LoaderCircle className="mr-2 animate-spin" /> Logging in...

@@ -1,7 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/merriweather";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -12,8 +14,8 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Merriweather Variable", serif;
+  --font-serif: "Merriweather Variable", serif;
 
   --font-mono:
     "JetBrains Mono", ui-monospace, "SFMono-Regular", Monaco, Consolas,
@@ -131,6 +133,9 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
@@ -225,7 +230,6 @@
   --chart-3: oklch(0.7 0.18 130); /* Success lime */
   --chart-4: oklch(0.7 0.2 45); /* Warning orange */
   --chart-5: oklch(0.65 0.2 20); /* Danger crimson */
-
   /* Sidebar for dark mode */
   --sidebar: oklch(0.11 0 0);
   --sidebar-foreground: oklch(0.98 0 0);
@@ -243,5 +247,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-serif;
   }
 }
