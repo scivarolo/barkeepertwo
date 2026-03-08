@@ -1,37 +1,37 @@
 import { Moon, Sun } from "lucide-react";
 
 import { useTheme } from "@/hooks/useTheme";
+import { Button } from "@/components/ui/button";
 import {
-  Button,
-  Dropdown,
-  DropdownItem,
   DropdownMenu,
-  DropdownTrigger,
-} from "@heroui/react";
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (
-    <Dropdown>
-      <DropdownTrigger asChild>
-        <Button variant="bordered" className="rounded-full" isIconOnly>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon" className="rounded-full">
           <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
           <span className="sr-only">Toggle theme</span>
         </Button>
-      </DropdownTrigger>
-      <DropdownMenu>
-        <DropdownItem key="light" onPress={() => setTheme("light")}>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
           Light
-        </DropdownItem>
-        <DropdownItem key="dark" onPress={() => setTheme("dark")}>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
           Dark
-        </DropdownItem>
-        <DropdownItem key="system" onPress={() => setTheme("system")}>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
           System
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

@@ -6,14 +6,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form, Input } from "@heroui/react";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardHeader,
   CardContent,
-  CardDescription,
 } from "@/components/ui/card";
 import { Pen, Plus } from "lucide-react";
 import LoadingIndicator from "../utility/LoadingIndicator";
@@ -42,20 +40,19 @@ function IngredientForm() {
 
   return (
     <>
-      <Button size="sm" color="primary" onClick={() => setIsOpen(true)}>
+      <Button size="sm" variant="default" onClick={() => setIsOpen(true)}>
         <Plus size={16} />
       </Button>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger></DialogTrigger>
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            form.handleSubmit();
-          }}>
-          <DialogContent>
-            <DialogHeader className="flex flex-col gap-1">
-              <DialogTitle>New Ingredient</DialogTitle>
-            </DialogHeader>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New Ingredient</DialogTitle>
+          </DialogHeader>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}>
             <form.Field
               name="Name"
               validators={{
@@ -64,31 +61,30 @@ function IngredientForm() {
               }}>
               {({ state, handleChange, handleBlur }) => (
                 <Input
-                  isRequired
                   type="text"
-                  defaultValue={state.value}
+                  value={state.value}
                   onChange={(e) => handleChange(e.target.value)}
                   onBlur={handleBlur}
                   placeholder="Enter ingredient name"
+                  required
                 />
               )}
             </form.Field>
-            <DialogFooter>
+            <DialogFooter className="mt-6">
               <Button
-                color="danger"
                 variant="outline"
                 onClick={() => setIsOpen(false)}>
                 Close
               </Button>
               <Button
-                color="primary"
+                variant="default"
                 type="submit"
                 isLoading={saveIngredient.isPending}>
                 Save
               </Button>
             </DialogFooter>
-          </DialogContent>
-        </Form>
+          </form>
+        </DialogContent>
       </Dialog>
     </>
   );

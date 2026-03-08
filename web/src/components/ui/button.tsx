@@ -35,6 +35,19 @@ const buttonVariants = cva(
     },
   },
 );
+type ColorMapType = {
+  [key: string]: React.ComponentProps<typeof ButtonBase>["variant"];
+};
+
+const colorMap: ColorMapType = {
+  primary: "default",
+  danger: "destructive",
+  ghost: "ghost",
+  bordered: "outline",
+  light: "ghost",
+  secondary: "secondary",
+};
+
 type ButtonBaseProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean;
@@ -61,12 +74,19 @@ function ButtonBase({
 function Button({
   isLoading = false,
   children,
+  color,
+  isIconOnly,
   ...props
 }: ButtonBaseProps & {
   isLoading?: boolean;
+  color?: string;
+  isIconOnly?: boolean;
 }) {
+  const variant = color && colorMap[color] ? colorMap[color] : props.variant;
+  const size = isIconOnly ? "icon" : props.size;
+
   return (
-    <ButtonBase disabled={isLoading} {...props}>
+    <ButtonBase disabled={isLoading} variant={variant} size={size} {...props}>
       {isLoading ? <Loader2Icon className="animate-spin" /> : null}
       {children}
     </ButtonBase>
