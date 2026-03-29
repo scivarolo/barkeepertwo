@@ -15,6 +15,9 @@ public partial class Product {
     [Column("ingredientId")]
     public int IngredientId { get; set; }
 
+    [Column("size")]
+    public string? Size { get; set; }
+
     [Column("createdById")]
     public string CreatedById { get; set; } = null!;
 

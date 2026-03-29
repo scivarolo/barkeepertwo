@@ -1,6 +1,6 @@
 import { GetById, QueryParams } from "@/types/Request";
 import { constructGetRequest, constructPostRequest } from "./Utility";
-import { Ingredient, IngredientFormValues } from "@/types/Models";
+import { Ingredient, IngredientFormValues, IngredientType } from "@/types/Models";
 import {
   queryOptions,
   useMutation,
@@ -12,6 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 export const ingredientUrls = {
   ingredient: "Ingredient/Get",
   ingredients: "Ingredient/GetIngredients",
+  ingredientTypes: "Ingredient/GetIngredientTypes",
   saveIngredient: "Ingredient/SaveIngredient",
 };
 
@@ -19,6 +20,7 @@ export const ingredientKeys = {
   ingredient: (ingredientId: number) =>
     [ingredientUrls.ingredient, { Id: ingredientId } as GetById] as const,
   ingredients: () => [ingredientUrls.ingredients] as const,
+  ingredientTypes: () => [ingredientUrls.ingredientTypes] as const,
 };
 
 export const ingredientQueries = {
@@ -39,11 +41,24 @@ export const ingredientQueries = {
     });
     return queryOptions({ queryKey, queryFn });
   },
+  ingredientTypes: (options: QueryParams) => {
+    const queryKey = ingredientKeys.ingredientTypes();
+    const queryFn = constructGetRequest<IngredientType[], never>({
+      auth: options.auth,
+      url: queryKey[0],
+    });
+    return queryOptions({ queryKey, queryFn });
+  },
 };
 
 export function useIngredients() {
   const auth = useAuth0();
   return useQuery(ingredientQueries.ingredients({ auth }));
+}
+
+export function useIngredientTypes() {
+  const auth = useAuth0();
+  return useQuery(ingredientQueries.ingredientTypes({ auth }));
 }
 
 export function useSaveIngredient(onSuccess?: () => void) {

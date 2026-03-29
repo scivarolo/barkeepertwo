@@ -1,4 +1,5 @@
 using Barkeeper.Models.Database;
+using Barkeeper.Models.Request;
 using Barkeeper.Models.Utility;
 using Barkeeper.Models.ViewModels;
 
@@ -9,4 +10,6 @@ public interface ICocktailService {
     Task<Cocktail?> GetCocktailById(int Id);
 
     Task<CocktailViewModel?> GetCocktailView(int CocktailId);
+
+    Task<Cocktail> CreateCocktail(string createdById, CreateCocktailRequest request);
 }

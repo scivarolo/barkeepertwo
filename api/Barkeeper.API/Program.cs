@@ -53,11 +53,15 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICocktailService, CocktailService>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
 builder.Services.AddScoped<IBarService, BarService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IShoppingService, ShoppingService>();
 
 builder.Services.AddScoped<ICocktailRepository, CocktailRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<IBarRepository, BarRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
 
 builder.Services.AddSwaggerGen();
 

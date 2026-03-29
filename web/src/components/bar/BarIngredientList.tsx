@@ -1,14 +1,16 @@
-import { UserIngredient } from "@/types/Models";
+import { UserIngredient, UserProduct } from "@/types/Models";
 import NoItems from "@/components/utility/NoItems";
 import { Separator } from "@/components/ui/separator";
 import BarIngredientCard from "./BarIngredientCard";
 
 interface BarIngredientListProps {
   userIngredients: UserIngredient[];
+  userProducts: UserProduct[];
 }
 
 export default function BarIngredientList({
   userIngredients,
+  userProducts,
 }: BarIngredientListProps) {
   if (!userIngredients || userIngredients.length === 0) {
     return (
@@ -51,6 +53,7 @@ export default function BarIngredientList({
               <BarIngredientCard
                 key={userIngredient.Id}
                 userIngredient={userIngredient}
+                userProducts={userProducts}
               />
             ))}
           </div>

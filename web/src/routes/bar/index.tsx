@@ -8,8 +8,11 @@ import BarIngredientList from "@/components/bar/BarIngredientList";
 export const Route = createFileRoute("/bar/")({
   component: RouteComponent,
   loader: async ({ context }) => {
-    return context.queryClient.ensureQueryData(
+    await context.queryClient.ensureQueryData(
       barQueries.barIngredients({ auth: context.auth })
+    );
+    return context.queryClient.ensureQueryData(
+      barQueries.barProducts({ auth: context.auth })
     );
   },
 });
@@ -19,7 +22,11 @@ function RouteComponent() {
   const barQuery = useSuspenseQuery(
     barQueries.barIngredients({ auth: context.auth })
   );
+  const productsQuery = useSuspenseQuery(
+    barQueries.barProducts({ auth: context.auth })
+  );
   const userIngredients = barQuery.data;
+  const userProducts = productsQuery.data;
 
   return (
     <div>
@@ -28,7 +35,7 @@ function RouteComponent() {
         toolbar={<AddIngredientDialog />}
       />
       <div className="container mx-auto mt-6">
-        <BarIngredientList userIngredients={userIngredients} />
+        <BarIngredientList userIngredients={userIngredients} userProducts={userProducts} />
       </div>
     </div>
   );

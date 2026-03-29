@@ -15,3 +15,17 @@ export type QueryParams<TRequest = undefined> = (TRequest extends undefined
 export type RequestBody<T> = {
   body: T;
 };
+
+export interface CocktailIngredientRequest {
+  IngredientId: number;
+  Amount: number;
+  Units: string;
+  ProductId?: number;
+}
+
+export interface CreateCocktailRequest {
+  Name: string;
+  Instructions?: string;
+  Notes?: string;
+  Ingredients: CocktailIngredientRequest[];
+}

@@ -1,14 +1,15 @@
 import { Cocktail } from "@/types/Models";
 import { PagedResult, PagingOptions } from "@/types/Utility";
-import { queryOptions, useQuery } from "@tanstack/react-query";
-import { constructGetRequest } from "./Utility";
+import { queryOptions, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { constructGetRequest, constructPostRequest } from "./Utility";
 import { CocktailViewModel } from "@/types/ViewModels";
-import { GetById, QueryParams, RequestBody } from "@/types/Request";
+import { GetById, QueryParams, RequestBody, CreateCocktailRequest } from "@/types/Request";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const cocktailUrls = {
   cocktail: "Cocktail/GetCocktail",
   recentCocktails: "Cocktail/RecentCocktails",
+  createCocktail: "Cocktail/CreateCocktail",
 };
 
 export const cocktailKeys = {
@@ -55,4 +56,23 @@ export function useRecentCocktails(options: PagingOptions) {
   return useQuery(
     cocktailQueries.recentCocktails({ auth, request: { body: options } }),
   );
+}
+
+export function useCreateCocktail(onSuccess?: (cocktail: Cocktail) => void) {
+  const auth = useAuth0();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [cocktailUrls.createCocktail],
+    mutationFn: (body: CreateCocktailRequest) =>
+      constructPostRequest<Cocktail, CreateCocktailRequest>({
+        auth,
+        url: cocktailUrls.createCocktail,
+        body
+      })(),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [cocktailUrls.recentCocktails] });
+      onSuccess?.(data);
+    },
+  });
 }

@@ -17,6 +17,7 @@ import { Route as CocktailsIndexRouteImport } from './routes/cocktails/index'
 import { Route as BarIndexRouteImport } from './routes/bar/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as IngredientsIngredientIdRouteImport } from './routes/ingredients/$ingredientId'
+import { Route as CocktailsNewRouteImport } from './routes/cocktails/new'
 import { Route as CocktailsCocktailIdRouteImport } from './routes/cocktails/$cocktailId'
 import { Route as CocktailsCocktailIdEditRouteImport } from './routes/cocktails/$cocktailId.edit'
 
@@ -60,6 +61,11 @@ const IngredientsIngredientIdRoute = IngredientsIngredientIdRouteImport.update({
   path: '/ingredients/$ingredientId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CocktailsNewRoute = CocktailsNewRouteImport.update({
+  id: '/cocktails/new',
+  path: '/cocktails/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CocktailsCocktailIdRoute = CocktailsCocktailIdRouteImport.update({
   id: '/cocktails/$cocktailId',
   path: '/cocktails/$cocktailId',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/cocktails/new': typeof CocktailsNewRoute
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/cocktails/new': typeof CocktailsNewRoute
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin': typeof AdminIndexRoute
   '/bar': typeof BarIndexRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/theme-demo': typeof ThemeDemoRoute
   '/cocktails/$cocktailId': typeof CocktailsCocktailIdRouteWithChildren
+  '/cocktails/new': typeof CocktailsNewRoute
   '/ingredients/$ingredientId': typeof IngredientsIngredientIdRoute
   '/admin/': typeof AdminIndexRoute
   '/bar/': typeof BarIndexRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/theme-demo'
     | '/cocktails/$cocktailId'
+    | '/cocktails/new'
     | '/ingredients/$ingredientId'
     | '/admin'
     | '/bar'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/theme-demo'
     | '/cocktails/$cocktailId'
+    | '/cocktails/new'
     | '/ingredients/$ingredientId'
     | '/admin'
     | '/bar'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/theme-demo'
     | '/cocktails/$cocktailId'
+    | '/cocktails/new'
     | '/ingredients/$ingredientId'
     | '/admin/'
     | '/bar/'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ThemeDemoRoute: typeof ThemeDemoRoute
   CocktailsCocktailIdRoute: typeof CocktailsCocktailIdRouteWithChildren
+  CocktailsNewRoute: typeof CocktailsNewRoute
   IngredientsIngredientIdRoute: typeof IngredientsIngredientIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
   BarIndexRoute: typeof BarIndexRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IngredientsIngredientIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cocktails/new': {
+      id: '/cocktails/new'
+      path: '/cocktails/new'
+      fullPath: '/cocktails/new'
+      preLoaderRoute: typeof CocktailsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cocktails/$cocktailId': {
       id: '/cocktails/$cocktailId'
       path: '/cocktails/$cocktailId'
@@ -249,6 +269,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ThemeDemoRoute: ThemeDemoRoute,
   CocktailsCocktailIdRoute: CocktailsCocktailIdRouteWithChildren,
+  CocktailsNewRoute: CocktailsNewRoute,
   IngredientsIngredientIdRoute: IngredientsIngredientIdRoute,
   AdminIndexRoute: AdminIndexRoute,
   BarIndexRoute: BarIndexRoute,

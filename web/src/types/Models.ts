@@ -56,6 +56,7 @@ export interface Product {
   Id: number;
   Name: string;
   IngredientId: number;
+  Size?: string;
   CreatedById: string;
   CreatedAt: string;
   UpdatedAt: string;

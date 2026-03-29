@@ -1,6 +1,7 @@
 using System.Reflection;
 using Barkeeper.Data.Interfaces;
 using Barkeeper.Models.Database;
+using Barkeeper.Models.Request;
 using Barkeeper.Models.Utility;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,5 +44,37 @@ public class CocktailRepository(BarkeeperContext Context) : BaseRepository(Conte
         return await context.UserHistories
             .Where(c => c.CocktailId == CocktailId && c.DrinkDate >= date)
             .CountAsync();
+    }
+
+    public async Task<Cocktail> CreateCocktail(string createdById, CreateCocktailRequest request) {
+        var cocktail = new Cocktail {
+            Name = request.Name,
+            Instructions = request.Instructions,
+            Notes = request.Notes,
+            CreatedById = createdById,
+            CreatedAt = DateTime.Now,
+            UpdatedAt = DateTime.Now,
+        };
+
+        context.Cocktails.Add(cocktail);
+        await context.SaveChangesAsync();
+
+        for (int i = 0; i < request.Ingredients.Count; i++) {
+            var ingredientRequest = request.Ingredients[i];
+            var cocktailIngredient = new CocktailIngredient {
+                CocktailId = cocktail.Id,
+                IngredientId = ingredientRequest.IngredientId,
+                Amount = ingredientRequest.Amount,
+                Units = ingredientRequest.Units,
+                ProductId = ingredientRequest.ProductId,
+                Order = i,
+            };
+
+            context.CocktailIngredients.Add(cocktailIngredient);
+        }
+
+        await context.SaveChangesAsync();
+
+        return await GetFullCocktail(cocktail.Id) ?? cocktail;
     }
 }

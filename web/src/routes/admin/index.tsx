@@ -1,4 +1,5 @@
 import IngredientManager from "@/components/admin/IngredientManager";
+import ProductManager from "@/components/admin/ProductManager";
 import PageHeader from "@/components/page/PageHeader";
 import { UserHelper } from "@/lib/user";
 import { createFileRoute, redirect } from "@tanstack/react-router";
@@ -45,6 +46,9 @@ function RouteComponent() {
       <div className="grid grid-cols-2 gap-3">
         <div>
           <IngredientManager />
+        </div>
+        <div>
+          <ProductManager />
         </div>
       </div>
     </div>

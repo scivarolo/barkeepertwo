@@ -18,4 +18,16 @@ public class BarService(IBarRepository BarRepository) : IBarService {
     public async Task RemoveIngredient(string userId, int ingredientId) {
         await barRepository.RemoveIngredient(userId, ingredientId);
     }
+
+    public async Task<ICollection<UserProduct>> GetUserProducts(string userId) {
+        return await barRepository.GetUserProducts(userId);
+    }
+
+    public async Task<UserProduct> AddUserProduct(string userId, int productId) {
+        return await barRepository.AddUserProduct(userId, productId);
+    }
+
+    public async Task RemoveUserProduct(string userId, int productId) {
+        await barRepository.RemoveUserProduct(userId, productId);
+    }
 }

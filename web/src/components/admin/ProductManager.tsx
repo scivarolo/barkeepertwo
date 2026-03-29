@@ -1,4 +1,5 @@
-import { useIngredients, useSaveIngredient, useIngredientTypes } from "@/data/Ingredient";
+import { useIngredients } from "@/data/Ingredient";
+import { useAllProducts, useSaveProduct } from "@/data/Product";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,30 +24,29 @@ import {
 import { Pen, Plus } from "lucide-react";
 import LoadingIndicator from "../utility/LoadingIndicator";
 import { useForm } from "@tanstack/react-form";
-import { Ingredient, IngredientFormValues } from "@/types/Models";
-import { Link } from "@tanstack/react-router";
+import { Product } from "@/types/Models";
 import { useMemo, useState, useEffect } from "react";
 import { ColumnDef, createColumnHelper } from "@tanstack/react-table";
 import { Paginator } from "../table/Paginator";
 
-interface IngredientFormProps {
-  ingredient?: Ingredient;
+interface ProductFormProps {
+  product?: Product;
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }
 
-function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps) {
-  const ingredientTypes = useIngredientTypes();
-  const saveIngredient = useSaveIngredient(() => onOpenChange(false));
+function ProductForm({ product, open, onOpenChange }: ProductFormProps) {
+  const ingredients = useIngredients();
+  const saveProduct = useSaveProduct(() => onOpenChange(false));
   const form = useForm({
     defaultValues: {
-      Id: ingredient?.Id ?? 0,
-      Name: ingredient?.Name ?? "",
-      CreatedById: ingredient?.CreatedById ?? "",
-      IngredientTypeId: ingredient?.IngredientTypeId,
-    } as IngredientFormValues,
+      Id: product?.Id ?? 0,
+      Name: product?.Name ?? "",
+      IngredientId: product?.IngredientId ?? 0,
+      Size: product?.Size ?? "",
+    },
     onSubmit: async ({ value }) => {
-      saveIngredient.mutate(value);
+      saveProduct.mutate(value);
     },
   });
 
@@ -61,7 +61,7 @@ function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps)
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {ingredient ? "Edit Ingredient" : "New Ingredient"}
+            {product ? "Edit Product" : "New Product"}
           </DialogTitle>
         </DialogHeader>
         <form
@@ -81,34 +81,37 @@ function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps)
                 value={state.value}
                 onChange={(e) => handleChange(e.target.value)}
                 onBlur={handleBlur}
-                placeholder="Enter ingredient name"
+                placeholder="Enter product name"
                 required
               />
             )}
           </form.Field>
 
           <form.Field
-            name="IngredientTypeId">
+            name="IngredientId"
+            validators={{
+              onSubmit: ({ value }) =>
+                !value ? "Ingredient is required" : undefined,
+            }}>
             {({ state, handleChange }) => {
-              const selectedType = ingredientTypes.data?.find(
-                (t) => t.Id === state.value
+              const selectedIngredient = ingredients.data?.find(
+                (i) => i.Id === state.value
               );
               return (
                 <div className="mt-4">
                   <Select
                     value={state.value ? String(state.value) : ""}
-                    onValueChange={(v) => handleChange(v ? parseInt(v) : undefined)}>
+                    onValueChange={(v) => handleChange(v ? parseInt(v) : 0)}
+                    disabled={product !== undefined}>
                     <SelectTrigger>
-                      <SelectValue
-                        placeholder="Select type (optional)">
-                        {selectedType?.Name || "Select type (optional)"}
+                      <SelectValue placeholder="Select ingredient">
+                        {selectedIngredient?.Name || "Select ingredient"}
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">None</SelectItem>
-                      {ingredientTypes.data?.map((type) => (
-                        <SelectItem key={type.Id} value={String(type.Id)}>
-                          {type.Name}
+                      {ingredients.data?.map((ing) => (
+                        <SelectItem key={ing.Id} value={String(ing.Id)}>
+                          {ing.Name}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -116,6 +119,20 @@ function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps)
                 </div>
               );
             }}
+          </form.Field>
+
+          <form.Field
+            name="Size">
+            {({ state, handleChange }) => (
+              <div className="mt-4">
+                <Input
+                  type="text"
+                  value={state.value}
+                  onChange={(e) => handleChange(e.target.value)}
+                  placeholder="Size (optional)"
+                />
+              </div>
+            )}
           </form.Field>
 
           <DialogFooter className="mt-6">
@@ -127,7 +144,7 @@ function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps)
             <Button
               variant="default"
               type="submit"
-              disabled={saveIngredient.isPending}>
+              disabled={saveProduct.isPending}>
               Save
             </Button>
           </DialogFooter>
@@ -137,29 +154,28 @@ function IngredientForm({ ingredient, open, onOpenChange }: IngredientFormProps)
   );
 }
 
-export default function IngredientManager() {
-  const ingredients = useIngredients();
-  const [editingIngredient, setEditingIngredient] = useState<Ingredient | null>(null);
+export default function ProductManager() {
+  const products = useAllProducts();
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const columnHelper = useMemo(() => createColumnHelper<Ingredient>(), []);
+  const columnHelper = useMemo(() => createColumnHelper<Product>(), []);
   const columns = useMemo(
     () =>
       [
         columnHelper.accessor("Name", {
           cell: ({ row }) => (
-            <div
-              key={row.original.Id}
-              className="flex items-center justify-between border-b-1 p-3 px-6">
+            <div className="flex items-center justify-between border-b-1 p-3 px-6">
               <div className="flex-1">
-                <Link
-                  to="/ingredients/$ingredientId"
-                  params={{ ingredientId: row.original.Id.toString() }}>
-                  <div className="font-medium">{row.original.Name}</div>
-                </Link>
-                {row.original.IngredientType && (
+                <div className="font-medium">{row.original.Name}</div>
+                {row.original.Size && (
                   <div className="text-sm text-muted-foreground">
-                    {row.original.IngredientType.Name}
+                    {row.original.Size}
+                  </div>
+                )}
+                {row.original.Ingredient && (
+                  <div className="text-sm text-muted-foreground">
+                    {row.original.Ingredient.Name}
                   </div>
                 )}
               </div>
@@ -168,7 +184,7 @@ export default function IngredientManager() {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    setEditingIngredient(row.original);
+                    setEditingProduct(row.original);
                     setIsOpen(true);
                   }}>
                   <Pen size="16" />
@@ -177,7 +193,7 @@ export default function IngredientManager() {
             </div>
           ),
         }),
-      ] as ColumnDef<Ingredient>[],
+      ] as ColumnDef<Product>[],
     [columnHelper],
   );
 
@@ -185,14 +201,14 @@ export default function IngredientManager() {
     <Card>
       <CardHeader className="flex content-between">
         <div className="mr-auto">
-          <LoadingIndicator isLoading={ingredients.isRefetching} />
-          <h1 className="font-display text-xl font-semibold">Ingredients</h1>
+          <LoadingIndicator isLoading={products.isRefetching} />
+          <h1 className="font-display text-xl font-semibold">Products</h1>
         </div>
         <Button
           size="sm"
           variant="default"
           onClick={() => {
-            setEditingIngredient(null);
+            setEditingProduct(null);
             setIsOpen(true);
           }}>
           <Plus size={16} />
@@ -200,16 +216,16 @@ export default function IngredientManager() {
       </CardHeader>
       <CardContent className="p-0">
         <hr />
-        <LoadingIndicator isLoading={ingredients.isLoading} />
-        <Paginator<Ingredient>
-          data={ingredients.data}
+        <LoadingIndicator isLoading={products.isLoading} />
+        <Paginator<Product>
+          data={products.data}
           columns={columns}
           initialPageSize={10}
           pageSizeOptions={[10, 20, 30, 40, 50]}
         />
       </CardContent>
-      <IngredientForm
-        ingredient={editingIngredient ?? undefined}
+      <ProductForm
+        product={editingProduct ?? undefined}
         open={isOpen}
         onOpenChange={setIsOpen}
       />

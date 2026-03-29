@@ -1,5 +1,6 @@
 using Barkeeper.Data.Interfaces;
 using Barkeeper.Models.Database;
+using Barkeeper.Models.Request;
 using Barkeeper.Models.Utility;
 using Barkeeper.Models.ViewModels;
 using Barkeeper.Services.Interfaces;
@@ -25,5 +26,9 @@ public class CocktailService(ICocktailRepository CocktailRepo) : ICocktailServic
 
         var count = await cocktailRepo.GetCountForCocktail(CocktailId);
         return new CocktailViewModel(cocktail, count);
+    }
+
+    public async Task<Cocktail> CreateCocktail(string createdById, CreateCocktailRequest request) {
+        return await cocktailRepo.CreateCocktail(createdById, request);
     }
 }

@@ -22,4 +22,19 @@ public class BarController(IBarService BarService) : BarkeeperControllerBase {
     public async Task RemoveIngredient([FromBody] BarIngredientRequest request) {
         await barService.RemoveIngredient(CurrentUserId, request.IngredientId);
     }
+
+    [HttpGet]
+    public async Task<ICollection<UserProduct>> GetProducts() {
+        return await barService.GetUserProducts(CurrentUserId);
+    }
+
+    [HttpPost]
+    public async Task<UserProduct> AddProduct([FromBody] BarProductRequest request) {
+        return await barService.AddUserProduct(CurrentUserId, request.ProductId);
+    }
+
+    [HttpPost]
+    public async Task RemoveProduct([FromBody] BarProductRequest request) {
+        await barService.RemoveUserProduct(CurrentUserId, request.ProductId);
+    }
 }

@@ -19,6 +19,7 @@ namespace Barkeeper.API.Controllers {
             return ingredient;
         }
 
+        [HttpGet]
         public async Task<Ingredient?> Get(int Id) {
             return await ingredientService.GetIngredient(Id);
         }

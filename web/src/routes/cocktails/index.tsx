@@ -5,7 +5,7 @@ import NoItems from "@/components/utility/NoItems";
 import { useRecentCocktails } from "@/data/Cocktail";
 import { PagingOptions, SortDirection } from "@/types/Utility";
 import { Button } from "@/components/ui/button";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/cocktails/")({
@@ -25,7 +25,11 @@ function RouteComponent() {
       <PageHeader
         title="Cocktails"
         subtitle="Recently created cocktails"
-        toolbar={<Button>Test</Button>}
+        toolbar={
+          <Link to="/cocktails/new">
+            <Button>Create Cocktail</Button>
+          </Link>
+        }
       />
       <div>
         <LoadingIndicator

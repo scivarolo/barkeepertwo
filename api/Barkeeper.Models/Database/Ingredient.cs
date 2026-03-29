@@ -13,7 +13,7 @@ public partial class Ingredient {
         Id = Request.Id;
         Name = Request.Name;
         CreatedById = Request.CreatedById;
-
+        IngredientTypeId = Request.IngredientTypeId;
     }
 
     [Key]
